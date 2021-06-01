@@ -1,0 +1,122 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "windows current file",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"preLaunchTask": "rebuild",
+			"program": "${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe",
+			"args": [
+				"password",
+				"flag"
+			],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "windows server",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"preLaunchTask": "rebuild",
+			"program": "${workspaceFolder}\\bin\\server0",
+			"args": [
+				"password",
+				"flag"
+			],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "windows client",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"preLaunchTask": "rebuild",
+			"program": "${workspaceFolder}\\bin\\client0",
+			"args": [
+				"password",
+				"flag"
+			],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "linux current file",
+			"type": "cppdbg",
+			"preLaunchTask": "rebuild",
+			"request": "launch",
+			"program": "${workspaceRoot}/bin/${fileBasenameNoExtension}",
+			"args": [
+				"password",
+				"flag"
+			],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+			]
+		},
+		{
+			"name": "linux server",
+			"type": "cppdbg",
+			"preLaunchTask": "rebuild",
+			"request": "launch",
+			"program": "${workspaceRoot}/bin/server0",
+			"args": [
+				"password",
+				"flag"
+			],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+			]
+		},
+		{
+			"name": "linux client",
+			"type": "cppdbg",
+			"preLaunchTask": "rebuild",
+			"request": "launch",
+			"program": "${workspaceRoot}/bin/client0",
+			"args": [
+				"password",
+				"flag"
+			],
+			"stopAtEntry": false,
+			"cwd": "${fileDirname}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				},
+			]
+		},
+	]
+}

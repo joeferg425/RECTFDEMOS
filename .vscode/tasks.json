@@ -1,0 +1,50 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "rebuild_linux",
+			"type": "shell",
+			"command": "make linux_rebuild_debug",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "build_linux",
+			"type": "shell",
+			"command": "make linux_build_debug",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "rebuild_windows",
+			"type": "shell",
+			// "command": "make windows_rebuild_debug",
+			// "command": "make windows_rebuild0_debug",
+			// "command": "make windows_rebuild1_debug",
+			"command": "make windows_rebuild2_debug",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "build_windows",
+			"type": "shell",
+			"command": "make windows_build2_debug",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
