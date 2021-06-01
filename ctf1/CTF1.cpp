@@ -14,12 +14,13 @@ g++ -m32 -s CTF1.c -o CTF1
 
 #include <stdio.h>
 #include <string>
+#include <string.h>
 
 using namespace std;
 #define flag "corn is gross"
 #define adminpw "Super$ecretPW1"
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
 	// these are here so the strings window doesnt just show flag and password
 	const char *distraction1 = "ImAP4$$word";
@@ -55,23 +56,20 @@ int main(int argc, char** argv)
 		printf("Success, flag #1 is '%s'\n", flag);
 	}
 	// this is here so the compiler doesn't optimize out the strings
-	if (1==2)
+	if (1 == 2)
 	{
 		printf("%s %s %s %s %s %s %s %s %s %s",
-			distraction1,
-			distraction2,
-			distraction3,
-			distraction4,
-			distraction5,
-			distraction6,
-			distraction7,
-			distraction8,
-			distraction9,
-			distraction10
-		);
+			   distraction1,
+			   distraction2,
+			   distraction3,
+			   distraction4,
+			   distraction5,
+			   distraction6,
+			   distraction7,
+			   distraction8,
+			   distraction9,
+			   distraction10);
 	}
 
 	return 0;
 }
-
-
