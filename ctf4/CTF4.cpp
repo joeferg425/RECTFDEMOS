@@ -21,7 +21,8 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-	int success = 0, i[3] = { 0xcaead884, 0xcacae8a6, 0x000000d8 };
+	int success = 0;
+	unsigned int i[3] = { 0xcaead884, 0xcacae8a6, 0x000000d8 };
 	const char *distraction1 = "1234567";
 	const char *distraction2 = "12345";
 	const char *pw = "Unbr4kable";
