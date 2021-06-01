@@ -18,7 +18,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-	int success = 0, i1[2] = { 0xc4c8c89e, 0x00d8d8c2 }, i2[4] = { 0xded8caac, 0xc2e4d2c6, 0xe4dee8e0, 0x0 };
+	unsigned int success = 0, i1[2] = { 0xc4c8c89e, 0x00d8d8c2 }, i2[4] = { 0xded8caac, 0xc2e4d2c6, 0xe4dee8e0, 0x0 };
 	const char *distraction1 = "football";
 	const char *distraction2 = "999999";
 	char *pw = (char*)&i1;
