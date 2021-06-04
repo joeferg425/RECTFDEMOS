@@ -6,7 +6,7 @@
 // unsigned char packetBuffer_c[BUFSIZE];
 // int packetLength_i;
 
-#define FRAME_DEBUG 1
+// #define FRAME_DEBUG 1
 
 #define FRAME_HEADER_LENGTH 2
 

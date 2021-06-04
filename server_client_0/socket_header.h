@@ -5,7 +5,8 @@
 #define BUFSIZE 1024
 #define FAILURE -1
 #define READ_WRITE_LEN 3
-#define SOCKET_DEBUG 1
+
+// #define SOCKET_DEBUG 1
 
 
 enum FAILURE_e
@@ -132,8 +133,9 @@ int socket_recv(int socket_fd, unsigned char* buffer, int *length)
     result_i = select(socket_fd+1, &rfds, NULL, NULL, &tv);
     if (result_i == 0)
     {
-        // timeout
+        #ifdef SOCKET_DEBUG
         printf("socket_recv select timeout\n");
+        #endif
         result_i = RECEIVE_TIMEOUT;
         *length = -1;
     }

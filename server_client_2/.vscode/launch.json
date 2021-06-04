@@ -8,8 +8,8 @@
 			"name": "windows current file",
 			"type": "cppvsdbg",
 			"request": "launch",
-			"preLaunchTask": "rebuild",
-			"program": "${workspaceFolder}\\bin\\${fileBasenameNoExtension}.exe",
+			"preLaunchTask": "build",
+			"program": "${workspaceFolder}\\bin\\${fileBasenameNoExtension}_x86_pe_debug.exe",
 			"args": [
 				"password",
 				"flag"
@@ -20,11 +20,11 @@
 			"console": "integratedTerminal"
 		},
 		{
-			"name": "windows server",
+			"name": "windows server2",
 			"type": "cppvsdbg",
 			"request": "launch",
-			"preLaunchTask": "rebuild",
-			"program": "${workspaceFolder}\\bin\\server2",
+			"preLaunchTask": "build",
+			"program": "${workspaceFolder}\\bin\\server2_x86_pe_debug.exe",
 			"args": [
 				"password",
 				"flag"
@@ -35,11 +35,11 @@
 			"console": "integratedTerminal"
 		},
 		{
-			"name": "windows client",
+			"name": "windows client2",
 			"type": "cppvsdbg",
 			"request": "launch",
-			"preLaunchTask": "rebuild",
-			"program": "${workspaceFolder}\\bin\\client2",
+			"preLaunchTask": "build",
+			"program": "${workspaceFolder}\\bin\\client2_x86_pe_debug.exe",
 			"args": [
 				"password",
 				"flag"

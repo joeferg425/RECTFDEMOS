@@ -22,11 +22,17 @@
 #define SERVER_DEBUG 1
 
 int server2_send(int socket_fd, unsigned char* buffer, struct packet_data_s* packet_s, int *length);
-int server2_recv(int socket_fd, unsigned char* buffer, struct server_data_s*, struct packet_data_s* packet_s, int *length);
+int server2_recv(int socket_fd, unsigned char* buffer, struct server_data_s*, struct packet_data_s* packet_s, int *length, bool print);
 int parse(struct server_data_s, unsigned char* recvBuffer_c, unsigned char* sendBuffer_c, int* length_i);
 
-unsigned char PASSWORD[BUFSIZE];
-unsigned char FLAG[BUFSIZE];
+unsigned char db[ID_COUNT][BUFSIZE];
+// unsigned char password[BUFSIZE];
+// unsigned char flag[BUFSIZE];
+// unsigned char name[BUFSIZE];
+// unsigned char model[BUFSIZE];
+// unsigned char voltage[BUFSIZE];
+// unsigned char current[BUFSIZE];
+// unsigned char power[BUFSIZE];
 
 int main(int argc, char const **argv)
 {
@@ -50,8 +56,13 @@ int main(int argc, char const **argv)
 
     printf("Server Launching...\n");
 
-    strcpy((char*)PASSWORD, argv[1]);
-    strcpy((char*)FLAG, argv[2]);
+    strcpy((char*)db[ID_LOGN], argv[1]);
+    strcpy((char*)db[ID_FLAG], argv[2]);
+    strcpy((char*)db[ID_NAME], SERVER_NAME);
+    strcpy((char*)db[ID_MODL], SERVER_MODEL);
+    strcpy((char*)db[ID_VOLT], "119.5");
+    strcpy((char*)db[ID_CURR], "9001");
+    strcpy((char*)db[ID_POWR], "1.0000000000000000007");
 
     // open server socket
     result_i = server_connect(&serverSocket_fd, PORT);
@@ -83,7 +94,7 @@ int main(int argc, char const **argv)
             while (result_i == SUCCESS)
             {
                 // receive a buffer of data
-                result_i = server2_recv(clientSocket_fd, recvBuf_c, &serverData, &packet_s, &length_i);
+                result_i = server2_recv(clientSocket_fd, recvBuf_c, &serverData, &packet_s, &length_i, true);
                 if (result_i == SUCCESS)
                 {
                     // result_i = parse(serverData, recvBuf_c, sendBuf_c, &length_i);
@@ -133,18 +144,20 @@ int server2_send(int socket_fd, unsigned char* buffer_c, struct packet_data_s* p
     packet_s->to = CLIENT_ID;
     int result_i = pack_packet(buffer_c, packet_s, length_i);
     result_i = frame_send(socket_fd, buffer_c, length_i);
-    #ifdef SOCKET_DEBUG
+    #ifdef PACKET_DEBUG
     printf("server2_send sent data:\n");
-    printf(" From    : %d\n", packet_s->from);
-    printf(" To      : %d\n", packet_s->to);
-    printf(" Sequence: %d\n", packet_s->sequence);
-    printf(" Function: %d\n", packet_s->function);
-    printf(" Data    : %s\n", (char*)packet_s->data);
-    printf(" DataLen :%d\n", packet_s->length);
+    printf(" From      : %d\n", packet_s->from);
+    printf(" To        : %d\n", packet_s->to);
+    printf(" Sequence  : %d\n", packet_s->sequence);
+    printf(" Function  : %d\n", packet_s->function);
+    printf(" Identifier: %d\n", packet_s->id);
+    printf(" Data      : %s\n", (char*)packet_s->data);
+    printf(" CRC       : %04X\n", packet_s->crc);
+    printf(" DataLen   : %d\n", packet_s->length);
     #endif
     return result_i;
 }
-int server2_recv(int socket_fd, unsigned char* buffer_c, struct server_data_s* server_s, struct packet_data_s* packet_s, int *length_i)
+int server2_recv(int socket_fd, unsigned char* buffer_c, struct server_data_s* server_s, struct packet_data_s* packet_s, int *length_i, bool print)
 {
     int result_i = frame_recv(socket_fd, buffer_c, length_i);
     if (result_i == SUCCESS)
@@ -154,141 +167,125 @@ int server2_recv(int socket_fd, unsigned char* buffer_c, struct server_data_s* s
             // struct packet_header_s recvHeader_s = {0};
             // struct packet_header_s sendHeader_s = {0};
             parse_packet(buffer_c, packet_s, length_i);
+            #ifdef PACKET_DEBUG
             printf("server2_recv received data:\n");
-            printf(" From    : %d\n", packet_s->from);
-            printf(" To      : %d\n", packet_s->to);
-            printf(" Sequence: %d\n", packet_s->sequence);
-            printf(" Function: %d\n", packet_s->function);
-            printf(" Data    : %s\n", (char*)packet_s->data);
-            printf(" DataLen :%d\n", packet_s->length);
-            // sendHeader_s.from = SERVER_ID;
-            // sendHeader_s.to = recvHeader_s.from;
-            switch (packet_s->function)
+            printf(" From      : %d\n", packet_s->from);
+            printf(" To        : %d\n", packet_s->to);
+            printf(" Sequence  : %d\n", packet_s->sequence);
+            printf(" Function  : %d\n", packet_s->function);
+            printf(" Identifier: %d\n", packet_s->id);
+            printf(" Data      : %s\n", (char*)packet_s->data);
+            printf(" CRC       : %04X\n", packet_s->crc);
+            printf(" DataLen   : %d\n", packet_s->length);
+            #else
+            if (print == true)
             {
-                case FUNC_LOGN:
+                // printf("%d %d %s\n", packet_s->function, packet_s->id, (char*)packet_s->data);
+                printf("%s\n", (char*)packet_s->data);
+            }
+            #endif
+            if (packet_s->id == ID_LOGN)
+            {
+                if (packet_s->function == FUNCTION_WRITE_REQUEST)
                 {
-                    if (server_s->authorized == false)
+                    if (strcmp((char*)packet_s->data, (char*)db[packet_s->id]) == 0)
                     {
-                        // send a buffer of data
-                        if (strcmp((char*)packet_s->data, (char*)PASSWORD) == 0)
-                        {
-                            // strcpy(sendBuf_c, argv[2]);
-                            sprintf((char*)packet_s->data, "Congratulation! you have flag now!: %s", (char*)FLAG);
-                            packet_s->length = (strlen((char*)packet_s->data)+1);
-                            server_s->authorized = true;
-                        }
-                        else
-                        {
-                            strcpy((char*)packet_s->data, "Sorry, please try again.");
-                            packet_s->length = (strlen((char*)packet_s->data)+1);
-                            server_s->authorized = false;
-                        }
+                        sprintf((char*)packet_s->data, "Congratulation! you have flag now!: %s", (char*)db[ID_FLAG]);
+                        packet_s->length = (strlen((char*)packet_s->data)+1);
+                        server_s->authorized = true;
                     }
                     else
                     {
-                        strcpy((char*)packet_s->data, (char*)PASSWORD);
+                        strcpy((char*)packet_s->data, "Sorry, please try again.");
+                        packet_s->length = (strlen((char*)packet_s->data)+1);
+                        server_s->authorized = false;
+                    }
+                }
+                else
+                {
+                    if (server_s->authorized == true)
+                    {
+                        strcpy((char*)packet_s->data, (char*)db[packet_s->id]);
                         packet_s->length = (strlen((char*)packet_s->data)+1);
                     }
-                    *length_i = packet_s->length;
-                    break;
-                }
-                case FUNC_MODL:
-                {
-                    strcpy((char*)packet_s->data, SERVER_MODEL);
-                    packet_s->length = (strlen((char*)packet_s->data)+1);
-                    *length_i = packet_s->length;
-                    break;
-                }
-                case FUNC_NAME:
-                {
-                    strcpy((char*)packet_s->data, SERVER_NAME);
-                    packet_s->length = (strlen((char*)packet_s->data)+1);
-                    *length_i = packet_s->length;
-                    break;
-                }
-                case FUNC_VOLT:
-                {
-                    if (server_s->authorized == false)
+                    else
                     {
                         strcpy((char*)packet_s->data, "Not Authorized");
                         packet_s->length = (strlen((char*)packet_s->data)+1);
                     }
-                    else
-                    {
-                        strcpy((char*)packet_s->data, "119.5");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                    }
-                    *length_i = packet_s->length;
-                    break;
-                }
-                case FUNC_CURR:
-                {
-                    if (server_s->authorized == false)
-                    {
-                        strcpy((char*)packet_s->data, "Not Authorized");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                    }
-                    else
-                    {
-                        strcpy((char*)packet_s->data, "9001");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                    }
-                    *length_i = packet_s->length;
-                    break;
-                }
-                case FUNC_POWR:
-                {
-                    if (server_s->authorized == false)
-                    {
-                        strcpy((char*)packet_s->data, "Not Authorized");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                    }
-                    else
-                    {
-                        strcpy((char*)packet_s->data, "1.0");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                    }
-                    *length_i = packet_s->length;
-                    break;
-                }
-                case FUNC_AUTH:
-                {
-                    if (server_s->authorized == false)
-                    {
-                        strcpy((char*)packet_s->data, "false");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                    }
-                    else
-                    {
-                        strcpy((char*)packet_s->data, "true");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                    }
-                    *length_i = packet_s->length;
-                    break;
-                }
-                case FUNC_EXIT:
-                {
-                    if (server_s->authorized == false)
-                    {
-                        strcpy((char*)packet_s->data, "Not Authorized");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                    }
-                    else
-                    {
-                        strcpy((char*)packet_s->data, "Exiting");
-                        packet_s->length = (strlen((char*)packet_s->data)+1);
-                        exit(100);
-                    }
-                    *length_i = packet_s->length;
-                    break;
-                }
-                default:
-                {
-                    printf("Invalid function: \"%d\"\n", packet_s->function);
-                    result_i = MENU_FAILURE;
-                    break;
                 }
             }
+            else if (packet_s->id == ID_AUTH)
+            {
+                if (packet_s->function == FUNCTION_READ_REQUEST)
+                {
+                    if (server_s->authorized == true)
+                    {
+                        strcpy((char*)packet_s->data, "true");
+                    }
+                    else
+                    {
+                        strcpy((char*)packet_s->data, "false");
+                    }
+                    packet_s->length = (strlen((char*)packet_s->data)+1);
+                }
+                else
+                {
+                    strcpy((char*)packet_s->data, "Not Authorized");
+                    packet_s->length = (strlen((char*)packet_s->data)+1);
+                }
+            }
+            else if (packet_s->id >= ID_REQUIRES_AUTH)
+            {
+                if (packet_s->function == FUNCTION_WRITE_REQUEST)
+                {
+                    if (server_s->authorized == true)
+                    {
+                        strcpy((char*)db[packet_s->id], (char*)packet_s->data);
+                        packet_s->length = 0;
+                    }
+                    else
+                    {
+                        strcpy((char*)packet_s->data, "Not Authorized");
+                        packet_s->length = (strlen((char*)packet_s->data)+1);
+                    }
+                }
+                else
+                {
+                    if (server_s->authorized == true)
+                    {
+                        strcpy((char*)packet_s->data, (char*)db[packet_s->id]);
+                        packet_s->length = (strlen((char*)packet_s->data)+1);
+                    }
+                    else
+                    {
+                        strcpy((char*)packet_s->data, "Not Authorized");
+                        packet_s->length = (strlen((char*)packet_s->data)+1);
+                    }
+                }
+            }
+            else
+            {
+                if (packet_s->function == FUNCTION_WRITE_REQUEST)
+                {
+                    strcpy((char*)db[packet_s->id], (char*)packet_s->data);
+                    packet_s->length = 0;
+                }
+                else
+                {
+                    strcpy((char*)packet_s->data, (char*)db[packet_s->id]);
+                    packet_s->length = (strlen((char*)packet_s->data)+1);
+                }
+            }
+            if (packet_s->function == FUNCTION_READ_REQUEST)
+            {
+                packet_s->function = FUNCTION_READ_RESPONSE;
+            }
+            else if (packet_s->function == FUNCTION_WRITE_REQUEST)
+            {
+                packet_s->function = FUNCTION_WRITE_RESPONSE;
+            }
+            *length_i = packet_s->length;
         }
     }
     return result_i;

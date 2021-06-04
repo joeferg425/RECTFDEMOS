@@ -1,3 +1,4 @@
+default: build
 %:
 	$(MAKE) -C ./ctf1 $1
 	$(MAKE) -C ./ctf2 $1
