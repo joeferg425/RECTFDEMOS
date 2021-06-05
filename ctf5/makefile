@@ -18,6 +18,14 @@ install_linux:
 	apt-get install gcc-powerpc-linux-gnu g++-powerpc-linux-gnu binutils-powerpc-linux-gnu
 	apt-get install gcc-arm-linux-gnueabi g++-arm-linux-gnueabi binutils-arm-linux-gnueabi
 
+build_windows_helper:
+	@if not exist $(OUTDIR_WIN) mkdir $(OUTDIR_WIN)
+	cl.exe obfuscate5.cpp /Fe$(OUTDIR_WIN)\\obfuscate5.exe /Fo$(OUTDIR_WIN)\\obfuscate5.obj
+
+build_linux_helper:
+	@mkdir -p $(OUTDIR)
+	gcc obfuscate5.cpp -o $(OUTDIR)/obfuscate5
+
 build_windows_x86:
 	@if not exist $(OUTDIR_WIN) mkdir $(OUTDIR_WIN)
 	cl.exe $(NAME).cpp /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe.obj

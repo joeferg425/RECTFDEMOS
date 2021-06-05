@@ -19,10 +19,12 @@ g++ -m32 -s CTF4.c -o CTF4
 
 using namespace std;
 
+#define BUFFSIZE 50
+
 int main(int argc, char** argv)
 {
     int success = 0;
-    unsigned int i[3] = { 0xcaead884, 0xcacae8a6, 0x000000d8 };
+    char flag[BUFFSIZE] = { 0x24, 0x0A, 0x13, 0x03, 0x15, 0x12, 0x03, 0x03, 0x0A, 0x66 };
     const char *distraction1 = "1234567";
     const char *distraction2 = "12345";
     const char *pw = "Unbr4kable";
@@ -30,7 +32,7 @@ int main(int argc, char** argv)
     const char *distraction8 = "12345";
     const char *distraction9 = "baseball";
     string input = "";
-    char *flag = (char*)&i;
+    // char *flag = (char*)&i;
 
     printf("Please enter the password: ");
     int c = '\0';
@@ -45,9 +47,9 @@ int main(int argc, char** argv)
         input += cc;
     }
     // de-obfuscate flag
-    for (int j = 0; j < 12; j++)
+    for (int j = 0; j < BUFFSIZE; j++)
     {
-        flag[j] = (char)(((unsigned char)flag[j]) / 2);
+        flag[j] = (char)(((unsigned char)flag[j]) ^ 0x66);
     }
     success = strcmp(input.c_str(), pw);
     if (success)
