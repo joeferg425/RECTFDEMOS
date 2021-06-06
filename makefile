@@ -9,3 +9,4 @@ default: build
 	$(MAKE) -C ./server_client_0 $1
 	$(MAKE) -C ./server_client_1 $1
 	$(MAKE) -C ./server_client_2 $1
+	$(MAKE) -C ./md5 $1

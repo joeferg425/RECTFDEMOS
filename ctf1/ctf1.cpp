@@ -1,15 +1,10 @@
 /*
-Capture the flag demo 1.
 Clear-text password
 Clear-text flag
 
 pass: Super$ecretPW1
 flag: corn is gross
 
-Cross-compiled in 64bit Ubuntu 14
-g++ -m32 -s CTF1.c -o CTF1
--m32 : cross-compile for 32 bit
--s : strip symbols
 */
 
 #include <stdio.h>

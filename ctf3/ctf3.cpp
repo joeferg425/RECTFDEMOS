@@ -1,15 +1,10 @@
 /*
-Capture the flag demo 3.
 Obfuscated password
 Clear-text flag
 
 pass: tinker
 flag: G0ld1
 
-Cross-compiled in 64bit Ubuntu 14
-g++ -m32 -s CTF3.c -o CTF3
--m32 : cross-compile for 32 bit
--s : strip symbols
 */
 
 #include <stdio.h>

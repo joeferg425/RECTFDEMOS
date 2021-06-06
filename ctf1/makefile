@@ -1,8 +1,10 @@
 default: build
 
 NAME=ctf1
-OUTDIR=./bin
+OUTDIR_NIX=./bin
 OUTDIR_WIN=.\\bin
+INCLUDE_NIX=-I ./
+INCLUDE_WIN=/I .\\
 
 ifeq ($(OS),Windows_NT)
     detected_OS_clean := clean_windows
@@ -20,8 +22,8 @@ install_linux:
 
 build_windows_x86:
 	@if not exist $(OUTDIR_WIN) mkdir $(OUTDIR_WIN)
-	cl.exe $(NAME).cpp /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe.obj
-	cl.exe /DEBUG /ZI /F5 $(NAME).cpp /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.obj
+	cl.exe $(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe.obj
+	cl.exe /DEBUG /ZI /F5 $(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.obj
 	@if exist .\\*.idb move .\\*.idb $(OUTDIR_WIN)\\
 	@if exist .\\*.pdb move .\\*.pdb $(OUTDIR_WIN)\\
 clean_windows_x86:
@@ -29,30 +31,30 @@ clean_windows_x86:
 rebuild_windows_x86: clean_windows_x86 build_windows_x86
 
 build_linux_x86:
-	@mkdir -p $(OUTDIR)
-	g++ -s $(NAME).cpp -o $(OUTDIR)/$(NAME)_x86_elf_debug -g
-	g++ -s $(NAME).cpp -o $(OUTDIR)/$(NAME)_x86_elf
-	strip $(OUTDIR)/$(NAME)_x86_elf
+	@mkdir -p $(OUTDIR_NIX)
+	g++ -s $(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_x86_elf_debug -g
+	g++ -s $(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_x86_elf
+	strip $(OUTDIR_NIX)/$(NAME)_x86_elf
 clean_linux_x86:
-	rm -f $(OUTDIR)/$(NAME)_x86_elf*
+	rm -f $(OUTDIR_NIX)/$(NAME)_x86_elf*
 rebuild_linux_x86: clean_linux_x86 build_linux_x86
 
 build_linux_arm:
-	@mkdir -p $(OUTDIR)
-	arm-linux-gnueabi-g++ -s $(NAME).cpp -o $(OUTDIR)/$(NAME)_arm_elf_debug
-	cp $(OUTDIR)/$(NAME)_arm_elf_debug $(OUTDIR)/$(NAME)_arm_elf
-	arm-linux-gnueabi-strip $(OUTDIR)/$(NAME)_arm_elf
+	@mkdir -p $(OUTDIR_NIX)
+	arm-linux-gnueabi-g++ -s $(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_arm_elf_debug
+	cp $(OUTDIR_NIX)/$(NAME)_arm_elf_debug $(OUTDIR_NIX)/$(NAME)_arm_elf
+	arm-linux-gnueabi-strip $(OUTDIR_NIX)/$(NAME)_arm_elf
 clean_linux_arm:
-	rm -f $(OUTDIR)/$(NAME)_arm_elf*
+	rm -f $(OUTDIR_NIX)/$(NAME)_arm_elf*
 rebuild_linux_arm: clean_linux_arm build_linux_arm
 
 build_linux_ppc:
-	@mkdir -p $(OUTDIR)
-	powerpc-linux-gnu-g++ -s $(NAME).cpp -o $(OUTDIR)/$(NAME)_ppc_elf_debug
-	cp $(OUTDIR)/$(NAME)_ppc_elf_debug $(OUTDIR)/$(NAME)_ppc_elf
-	powerpc-linux-gnu-strip $(OUTDIR)/$(NAME)_ppc_elf
+	@mkdir -p $(OUTDIR_NIX)
+	powerpc-linux-gnu-g++ -s $(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_ppc_elf_debug
+	cp $(OUTDIR_NIX)/$(NAME)_ppc_elf_debug $(OUTDIR_NIX)/$(NAME)_ppc_elf
+	powerpc-linux-gnu-strip $(OUTDIR_NIX)/$(NAME)_ppc_elf
 clean_linux_ppc:
-	rm -f $(OUTDIR)/$(NAME)_ppc_elf*
+	rm -f $(OUTDIR_NIX)/$(NAME)_ppc_elf*
 rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
 
 build_linux: build_linux_x86 build_linux_arm build_linux_ppc

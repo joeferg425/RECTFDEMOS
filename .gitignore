@@ -34,3 +34,6 @@
 # custom
 */bin/
 bin/
+*.pdb
+*.idb
+*.obj

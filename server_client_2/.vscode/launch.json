@@ -54,7 +54,7 @@
 			"type": "cppdbg",
 			"preLaunchTask": "rebuild",
 			"request": "launch",
-			"program": "${workspaceRoot}/bin/${fileBasenameNoExtension}",
+			"program": "${workspaceRoot}/bin/${fileBasenameNoExtension}_x86_elf_debug",
 			"args": [
 				"password",
 				"flag"

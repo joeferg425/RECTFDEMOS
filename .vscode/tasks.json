@@ -4,7 +4,7 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "rebuild_linux",
+			"label": "linux_rebuild",
 			"type": "shell",
 			"command": "make linux_rebuild_debug",
 			"problemMatcher": [],
@@ -14,7 +14,7 @@
 			}
 		},
 		{
-			"label": "build_linux",
+			"label": "rebuild_linux",
 			"type": "shell",
 			"command": "make linux_build_debug",
 			"problemMatcher": [],
@@ -37,7 +37,7 @@
 			}
 		},
 		{
-			"label": "build_windows",
+			"label": "windows_build",
 			"type": "shell",
 			"command": "make windows_build2_debug",
 			"problemMatcher": [],

@@ -1,15 +1,10 @@
 /*
-Capture the flag demo 4.
 Clear-text password
 Obfuscated flag
 
 pass: Unbr4kable
 flag: Bluesteel
 
-Cross-compiled in 64bit Ubuntu 14
-g++ -m32 -s CTF4.c -o CTF4
--m32 : cross-compile for 32 bit
--s : strip symbols
 */
 
 #include <stdio.h>

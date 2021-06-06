@@ -1,12 +1,10 @@
 /*
-Capture the flag demo 5.
 Obfuscated password
 Obfuscated flag
 
 pass: Oddball
 flag: Velociraptor
 
-Cross-compiled in 64bit Windows 7 using Visual Studio 2013
 */
 
 #include <stdio.h>

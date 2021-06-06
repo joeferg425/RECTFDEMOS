@@ -1,12 +1,10 @@
 /*
-Capture the flag demo 2.
 Clear-text password
 Clear-text flag
 
 pass: Fo0B4r
 flag: down with gravity
 
-Cross-compiled in 64bit Windows 7 using Visual Studio 2013
 */
 
 #include <stdio.h>
