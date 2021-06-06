@@ -7,12 +7,19 @@
 #include <string.h>
 #include <stdint.h>
 
+#define ROUNDS 1
 // leftrotate function definition
 #define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
 
 // These vars will contain the hash
 
+#define BUFFER_NOT_INTS 1
+
+#ifdef BUFFER_NOT_INTS
+void md5(uint8_t *initial_msg, size_t initial_len, uint8_t *hash)
+#else
 void md5(uint8_t *initial_msg, size_t initial_len, uint32_t *h0, uint32_t *h1, uint32_t *h2, uint32_t *h3)
+#endif
 {
 
     // Message (to prepare)
@@ -51,10 +58,17 @@ void md5(uint8_t *initial_msg, size_t initial_len, uint32_t *h0, uint32_t *h1, u
         0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
     };
 
+    #ifdef BUFFER_NOT_INTS
+    *(uint32_t*)&hash[ 0] = 0x67452301;
+    *(uint32_t*)&hash[ 4] = 0xefcdab89;
+    *(uint32_t*)&hash[ 8] = 0x98badcfe;
+    *(uint32_t*)&hash[12] = 0x10325476;
+    #else
     *h0 = 0x67452301;
     *h1 = 0xefcdab89;
     *h2 = 0x98badcfe;
     *h3 = 0x10325476;
+    #endif
 
     // Pre-processing: adding a single 1 bit
     //append "1" bit to message
@@ -95,10 +109,17 @@ void md5(uint8_t *initial_msg, size_t initial_len, uint32_t *h0, uint32_t *h1, u
         #endif
 
         // Initialize hash value for this chunk:
+        #ifdef BUFFER_NOT_INTS
+        uint32_t a = *(uint32_t*)&hash[ 0];
+        uint32_t b = *(uint32_t*)&hash[ 4];
+        uint32_t c = *(uint32_t*)&hash[ 8];
+        uint32_t d = *(uint32_t*)&hash[12];
+        #else
         uint32_t a = *h0;
         uint32_t b = *h1;
         uint32_t c = *h2;
         uint32_t d = *h3;
+        #endif
 
         // Main loop:
         uint32_t i;
@@ -159,10 +180,17 @@ void md5(uint8_t *initial_msg, size_t initial_len, uint32_t *h0, uint32_t *h1, u
         }
 
         // Add this chunk's hash to result so far:
+        #ifdef BUFFER_NOT_INTS
+        *(uint32_t*)&hash[ 0] += a;
+        *(uint32_t*)&hash[ 4] += b;
+        *(uint32_t*)&hash[ 8] += c;
+        *(uint32_t*)&hash[12] += d;
+        #else
         *h0 += a;
         *h1 += b;
         *h2 += c;
         *h3 += d;
+        #endif
     }
 
     // cleanup

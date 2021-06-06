@@ -18,8 +18,8 @@
 
 int main(int argc, char **argv)
 {
-// These vars will contain the hash
-uint32_t h0, h1, h2, h3;
+    // These vars will contain the hash
+    unsigned char buf[16] = {0};
 
     if (argc < 2)
     {
@@ -30,25 +30,12 @@ uint32_t h0, h1, h2, h3;
     char *msg = argv[1];
     size_t len = strlen(msg);
 
-    md5((uint8_t*)msg, len, &h0, &h1, &h2, &h3);
-    // }
+    md5((uint8_t*)msg, len, buf);
 
-    //var char digest[16] := h0 append h1 append h2 append h3 //(Output is in little-endian)
-    uint8_t *p;
-
-    // display result
-
-    p=(uint8_t *)&h0;
-    printf("%2.2X%2.2X%2.2X%2.2X", p[0], p[1], p[2], p[3]);
-
-    p=(uint8_t *)&h1;
-    printf("%2.2X%2.2X%2.2X%2.2X", p[0], p[1], p[2], p[3]);
-
-    p=(uint8_t *)&h2;
-    printf("%2.2X%2.2X%2.2X%2.2X", p[0], p[1], p[2], p[3]);
-
-    p=(uint8_t *)&h3;
-    printf("%2.2X%2.2X%2.2X%2.2X", p[0], p[1], p[2], p[3]);
+    printf("%02X%02X%02X%02X", buf[ 0], buf[ 1], buf[ 2], buf[ 3]);
+    printf("%02X%02X%02X%02X", buf[ 4], buf[ 5], buf[ 6], buf[ 7]);
+    printf("%02X%02X%02X%02X", buf[ 8], buf[ 9], buf[10], buf[11]);
+    printf("%02X%02X%02X%02X", buf[12], buf[13], buf[14], buf[15]);
     puts("");
 
     return 0;
