@@ -1,10 +1,7 @@
 // originally from https://gist.github.com/creationix/4710780
 
-/*
- * Simple MD5 implementation
- *
- * Compile with: gcc -o md5 -O3 -lm md5.c
- */
+#ifndef __MD5__
+#define __MD5__
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,9 +11,8 @@
 #define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
 
 // These vars will contain the hash
-uint32_t h0, h1, h2, h3;
 
-void md5(uint8_t *initial_msg, size_t initial_len)
+void md5(uint8_t *initial_msg, size_t initial_len, uint32_t *h0, uint32_t *h1, uint32_t *h2, uint32_t *h3)
 {
 
     // Message (to prepare)
@@ -55,10 +51,10 @@ void md5(uint8_t *initial_msg, size_t initial_len)
         0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
     };
 
-    h0 = 0x67452301;
-    h1 = 0xefcdab89;
-    h2 = 0x98badcfe;
-    h3 = 0x10325476;
+    *h0 = 0x67452301;
+    *h1 = 0xefcdab89;
+    *h2 = 0x98badcfe;
+    *h3 = 0x10325476;
 
     // Pre-processing: adding a single 1 bit
     //append "1" bit to message
@@ -72,7 +68,7 @@ void md5(uint8_t *initial_msg, size_t initial_len)
     int new_len = (((((initial_len + 8) / 64) + 1) * 64) - 8);
     // also appends "0" bits
     // (we alloc also 64 extra bytes...)
-    msg = calloc((new_len + 64), 1);
+    msg = (uint8_t*)calloc((new_len + 64), 1);
     memcpy(msg, initial_msg, initial_len);
     // write the "1" bit
     msg[initial_len] = 128;
@@ -99,10 +95,10 @@ void md5(uint8_t *initial_msg, size_t initial_len)
         #endif
 
         // Initialize hash value for this chunk:
-        uint32_t a = h0;
-        uint32_t b = h1;
-        uint32_t c = h2;
-        uint32_t d = h3;
+        uint32_t a = *h0;
+        uint32_t b = *h1;
+        uint32_t c = *h2;
+        uint32_t d = *h3;
 
         // Main loop:
         uint32_t i;
@@ -163,49 +159,14 @@ void md5(uint8_t *initial_msg, size_t initial_len)
         }
 
         // Add this chunk's hash to result so far:
-        h0 += a;
-        h1 += b;
-        h2 += c;
-        h3 += d;
+        *h0 += a;
+        *h1 += b;
+        *h2 += c;
+        *h3 += d;
     }
 
     // cleanup
     free(msg);
 }
 
-int main(int argc, char **argv) {
-
-    if (argc < 2) {
-        printf("usage: %s 'string'\n", argv[0]);
-        return 1;
-    }
-
-    char *msg = argv[1];
-    size_t len = strlen(msg);
-
-    // benchmark
-    // int i;
-    // for (i = 0; i < 1000000; i++) {
-        md5(msg, len);
-    // }
-
-    //var char digest[16] := h0 append h1 append h2 append h3 //(Output is in little-endian)
-    uint8_t *p;
-
-    // display result
-
-    p=(uint8_t *)&h0;
-    printf("%2.2X%2.2X%2.2X%2.2X", p[0], p[1], p[2], p[3]);
-
-    p=(uint8_t *)&h1;
-    printf("%2.2X%2.2X%2.2X%2.2X", p[0], p[1], p[2], p[3]);
-
-    p=(uint8_t *)&h2;
-    printf("%2.2X%2.2X%2.2X%2.2X", p[0], p[1], p[2], p[3]);
-
-    p=(uint8_t *)&h3;
-    printf("%2.2X%2.2X%2.2X%2.2X", p[0], p[1], p[2], p[3]);
-    puts("");
-
-    return 0;
-}
+#endif
