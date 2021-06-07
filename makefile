@@ -1,12 +1,11 @@
-default: build
 %:
-	$(MAKE) -C ./ctf1 $1
-	$(MAKE) -C ./ctf2 $1
-	$(MAKE) -C ./ctf3 $1
-	$(MAKE) -C ./ctf4 $1
-	$(MAKE) -C ./ctf5 $1
-	$(MAKE) -C ./ctf6 $1
-	$(MAKE) -C ./server_client_0 $1
-	$(MAKE) -C ./server_client_1 $1
-	$(MAKE) -C ./server_client_2 $1
-	$(MAKE) -C ./md5 $1
+	$(MAKE) -C ./ctf1 $@
+	$(MAKE) -C ./ctf2 $@
+	$(MAKE) -C ./ctf3 $@
+	$(MAKE) -C ./ctf4 $@
+	$(MAKE) -C ./ctf5 $@
+	$(MAKE) -C ./ctf6 $@
+	$(MAKE) -C ./server_client_0 $@
+	$(MAKE) -C ./server_client_1 $@
+	$(MAKE) -C ./server_client_2 $@
+	$(MAKE) -C ./md5 $@

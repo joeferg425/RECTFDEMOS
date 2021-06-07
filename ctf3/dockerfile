@@ -1,0 +1,11 @@
+FROM gcc
+ARG NAME="ctf"
+ENV CTF_NAME=$NAME
+RUN mkdir /home/build
+COPY ./$CTF_NAME/makefile /home/build/makefile
+COPY ./$CTF_NAME/$CTF_NAME.cpp /home/build/$CTF_NAME.cpp
+WORKDIR /home/build
+RUN make build_linux_x86
+RUN mv /home/build/bin/${CTF_NAME}_x86_elf /home/ctf
+RUN rm -rf /home/build/
+CMD /home/ctf

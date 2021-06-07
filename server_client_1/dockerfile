@@ -1,0 +1,16 @@
+FROM gcc
+ARG NAME="ctf"
+ENV CTF_NAME=$NAME
+RUN mkdir /home/build
+COPY ./$CTF_NAME/makefile /home/build/makefile
+COPY ./$CTF_NAME/client1.cpp /home/build/client1.cpp
+COPY ./$CTF_NAME/server1.cpp /home/build/server1.cpp
+COPY ./server_client_0/socket_header.hpp /home/build/socket_header.hpp
+COPY ./$CTF_NAME/frame_header.hpp /home/build/frame_header.hpp
+COPY ./$CTF_NAME/launch_bg.sh /home/launch_bg.sh
+WORKDIR /home/build
+RUN make build_linux_x86
+RUN mv /home/build/bin/server1_x86_elf /home/server
+RUN mv /home/build/bin/client1_x86_elf /home/client
+RUN rm -rf /home/build/
+CMD /home/launch_bg.sh

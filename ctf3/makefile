@@ -1,17 +1,36 @@
 default: build
 
-NAME=ctf3
+CUR_DIRNAME=$(shell basename "$(CURDIR)")
+NAME=$(CUR_DIRNAME)
 OUTDIR=./bin
 OUTDIR_WIN=.\\bin
 
 ifeq ($(OS),Windows_NT)
-    detected_OS_clean := clean_windows
-    detected_OS_build := build_windows
-    detected_OS_rebuild := rebuild_windows
+	CLEAN_CMD := clean_windows
+	BUILD_CMD := build_windows
+	REBUILD_CMD := rebuild_windows
+	CONTAINER_EXISTS := $(shell docker ps -a | findstr $(NAME) > nul 2>&1 && echo %errorlevel%)
+	IMAGE_EXISTS := $(shell docker image ls | findstr $(NAME)_img > nul 2>&1 && echo %errorlevel%)
+	DOCKER_BUILD_CMD := cd .. & docker build . -f $(NAME)\\dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
 else
-    detected_OS_clean := clean_linux
-    detected_OS_build := build_linux
-    detected_OS_rebuild := rebuild_linux
+	CLEAN_CMD := clean_linux
+	BUILD_CMD := build_linux
+	REBUILD_CMD := rebuild_linux
+	CONTAINER_EXISTS := $(shell docker ps -a | grep $(NAME) 2>&1 > /dev/null ; echo $$?)
+	IMAGE_EXISTS := $(shell docker image ls | grep $(NAME)_img 2>&1 > /dev/null ; echo $$?)
+	DOCKER_BUILD_CMD := cd .. ; docker build . -f ./$(NAME)/dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
+endif
+
+ifeq ($(CONTAINER_EXISTS), 0)
+	DOCKER_LAUNCH := docker start --attach -i $(NAME)
+else
+	DOCKER_LAUNCH := docker run -it --name $(NAME) $(NAME)_img
+endif
+
+ifeq ($(IMAGE_EXISTS), 0)
+	DOCKER_BUILD := @echo "image already built"
+else
+	DOCKER_BUILD := $(DOCKER_BUILD_CMD)
 endif
 
 install_linux:
@@ -63,6 +82,11 @@ clean_linux_ppc:
 	rm -f $(OUTDIR)/$(NAME)_ppc_elf*
 rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
 
+build_docker:
+	$(DOCKER_BUILD)
+run_docker: build_docker
+	$(DOCKER_LAUNCH)
+
 build_linux: build_linux_x86 build_linux_arm build_linux_ppc
 clean_linux: clean_linux_x86 clean_linux_arm clean_linux_ppc
 rebuild_linux: rebuild_linux_x86 rebuild_linux_arm rebuild_linux_ppc
@@ -71,6 +95,6 @@ build_windows: build_windows_x86
 clean_windows: clean_windows_x86
 rebuild_windows: rebuild_windows_x86
 
-build: $(detected_OS_build)
-clean: $(detected_OS_clean)
-rebuild: $(detected_OS_rebuild)
+build: $(BUILD_CMD)
+clean: $(CLEAN_CMD)
+rebuild: $(REBUILD_CMD)

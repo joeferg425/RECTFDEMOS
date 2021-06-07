@@ -15,6 +15,7 @@ flag: Bluesteel
 using namespace std;
 
 #define BUFFSIZE 50
+#define CTFNUM 4
 
 int main(int argc, char** argv)
 {
@@ -29,7 +30,7 @@ int main(int argc, char** argv)
     string input = "";
     // char *flag = (char*)&i;
 
-    printf("Please enter the password: ");
+    printf("Please enter CTF%d password: ", CTFNUM);
     int c = '\0';
     string s = "";
     while ((c = getchar()) != EOF)
@@ -49,11 +50,11 @@ int main(int argc, char** argv)
     success = strcmp(input.c_str(), pw);
     if (success)
     {
-        printf("Sorry, '%s' is not the correct password\n", input.c_str());
+        printf("Sorry, '%s' is not the CTF%d password\n", input.c_str(), CTFNUM);
     }
     else
     {
-        printf("Success, flag #4 is '%s'\n", flag);
+        printf("Success, CTF%d flag is '%s'\n", CTFNUM, flag);
     }
 
     return 0;

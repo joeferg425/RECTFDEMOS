@@ -17,8 +17,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "socket_header.h"
-#include "frame_header.h"
+#include "socket_header.hpp"
+#include "frame_header.hpp"
 
 // #define CLIENT_DEBUG 1
 

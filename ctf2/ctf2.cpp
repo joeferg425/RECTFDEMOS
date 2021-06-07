@@ -12,6 +12,8 @@ flag: down with gravity
 
 using namespace std;
 
+#define CTFNUM 2
+
 int main(int argc, char** argv)
 {
     // this is here to demonstrate that obfuscation in code is not good enough
@@ -27,7 +29,7 @@ int main(int argc, char** argv)
     char d7[100] = "oct31 = dec25";
     char d8[100] = "read terry pratchett";
 
-    printf("Please enter the password: ");
+    printf("Please enter CTF%d password: ", CTFNUM);
     int c = '\0';
     string s = "";
     while ((c = getchar()) != EOF)
@@ -42,11 +44,11 @@ int main(int argc, char** argv)
     // check the input
     if (s != pw)
     {
-        printf("Sorry, '%s' is not the correct password\n", s.c_str());
+        printf("Sorry, '%s' is not the CTF%d password\n", s.c_str(), CTFNUM);
     }
     else
     {
-        printf("Success, flag #2 is '%s'\n", flag);
+        printf("Success, CTF%d flag is '%s'\n", CTFNUM, flag);
     }
 
     return 0;

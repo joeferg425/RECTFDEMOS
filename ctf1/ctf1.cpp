@@ -14,6 +14,7 @@ flag: corn is gross
 using namespace std;
 #define flag "corn is gross"
 #define adminpw "Super$ecretPW1"
+#define CTFNUM 1
 
 int main(int argc, char **argv)
 {
@@ -28,7 +29,7 @@ int main(int argc, char **argv)
     const char *distraction8 = "12345";
     const char *distraction9 = "baseball";
     const char *distraction10 = "word";
-    printf("Please enter the password: ");
+    printf("Please enter CTF%d password: ", CTFNUM);
     int c = '\0';
     string s = "";
     // yes, i know there are ways of reading a line at a time
@@ -44,11 +45,11 @@ int main(int argc, char **argv)
     // check the input
     if (s != adminpw)
     {
-        printf("Sorry, '%s' is not the correct password\n", s.c_str());
+        printf("Sorry, '%s' is not the CTF%d password\n", s.c_str(), CTFNUM);
     }
     else
     {
-        printf("Success, flag #1 is '%s'\n", flag);
+        printf("Success, CTF%d flag is '%s'\n", CTFNUM, flag);
     }
     // this is here so the compiler doesn't optimize out the strings
     if (1 == 2)

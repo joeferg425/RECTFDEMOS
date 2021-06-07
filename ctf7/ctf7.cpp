@@ -15,8 +15,8 @@ flag: those aren't my waffles
 using namespace std;
 
 #define BUFFSIZE 512
-
 #define ITEM_COUNT 5
+#define CTFNUM 7
 
 int main(int argc, char **argv)
 {
@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     char input[BUFFSIZE] = {0};
     char hash[BUFFSIZE] = {0};
 
-    printf("Please enter the password: ");
+    printf("Please enter CTF%d password: ", CTFNUM);
     int c = '\0', charcount = 0;
     while (((c = getchar()) != EOF) && (c != '\n') && (charcount < (BUFFSIZE - 1)))
     {
@@ -48,12 +48,11 @@ int main(int argc, char **argv)
 
     if (strcmp((char*)hashes[0], hash) != 0)
     {
-        printf("Sorry, '%s' is not the correct password\n", input);
+        printf("Sorry, '%s' is not the CTF%d password\n", input, CTFNUM);
     }
     else
     {
-        printf("'%s' is correct \n", input);
-        printf("Success, flag #6 is '%s'\n", flags[0]);
+        printf("Success, CTF%d flag is '%s'\n", CTFNUM, flags[0]);
     }
     return 0;
 }

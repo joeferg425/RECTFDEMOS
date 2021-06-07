@@ -16,6 +16,8 @@ using namespace std;
 
 #define BUFFSIZE 512
 #define INSIZE 32
+#define CTFNUM 6
+
 #ifdef __GNUC__
 struct __attribute__((packed)) my_struct
 #else
@@ -55,7 +57,7 @@ int main(int argc, char **argv)
         upassword[count+1] = ((unsigned char)upassword[count] ^ upassword[count+1]);
     }
 
-    printf("Please enter the password: ");
+    printf("Please enter CTF%d password: ", CTFNUM);
     int c = '\0', charcount = 0;
     char *in = struk.input;
     while (((c = getchar()) != EOF) && (c != '\n'))
@@ -76,12 +78,11 @@ int main(int argc, char **argv)
 
     if (struk.suc == 0)
     {
-        printf("Sorry, '%s' is not the correct password\n", in);
+        printf("Sorry, '%s' is not the CTF%d password\n", in, CTFNUM);
     }
     else
     {
-        printf("'%s' is correct \n", in);
-        printf("Success, flag #6 is '%s'\n", flag);
+        printf("Success, CTF%d flag is '%s'\n", CTFNUM, flag);
     }
     return 0;
 }

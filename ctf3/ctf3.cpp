@@ -15,6 +15,7 @@ flag: G0ld1
 using namespace std;
 
 #define BUFFSIZE 25
+#define CTFNUM 3
 
 const char *str = "G0ld1";
 
@@ -30,7 +31,7 @@ int main(int argc, char** argv)
     string input = "";
     char *pw = (char*)&password_i;
 
-    printf("Please enter the password: ");
+    printf("Please enter CTF%d password: ", CTFNUM);
     flag = str;
     int c = '\0';
     string s = "";
@@ -51,11 +52,11 @@ int main(int argc, char** argv)
     success = strcmp(input.c_str(), pw);
     if (success)
     {
-        printf("Sorry, '%s' is not the correct password\n", input.c_str());
+        printf("Sorry, '%s' is not the CTF%d password\n", input.c_str(), CTFNUM);
     }
     else
     {
-        printf("Success, flag #3 is '%s'\n", flag);
+        printf("Success, CTF%d flag is '%s'\n", CTFNUM, flag);
     }
 
     return 0;
