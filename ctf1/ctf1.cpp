@@ -8,13 +8,14 @@ flag: corn is gross
 */
 
 #include <stdio.h>
-#include <string>
 #include <string.h>
 
 using namespace std;
+
 #define flag "corn is gross"
 #define adminpw "Super$ecretPW1"
 #define CTFNUM 1
+#define BUFSIZE 256
 
 int main(int argc, char **argv)
 {
@@ -31,21 +32,22 @@ int main(int argc, char **argv)
     const char *distraction10 = "word";
     printf("Please enter CTF%d password: ", CTFNUM);
     int c = '\0';
-    string s = "";
+    unsigned char input[BUFSIZE] = {0};
+    int counter = 0;
     // yes, i know there are ways of reading a line at a time
-    while ((c = getchar()) != EOF)
+    while (((c = getchar()) != EOF) && (counter < (BUFSIZE - 1)))
     {
-        char cc = (char)c;
-        if (cc == '\n')
+        if (c == '\n')
         {
             break;
         }
-        s += cc;
+        input[counter] = (unsigned char)c;
+        counter++;
     }
     // check the input
-    if (s != adminpw)
+    if (strcmp(adminpw, (char*)input) != 0)
     {
-        printf("Sorry, '%s' is not the CTF%d password\n", s.c_str(), CTFNUM);
+        printf("Sorry, '%s' is not the CTF%d password\n", (char*)input, CTFNUM);
     }
     else
     {

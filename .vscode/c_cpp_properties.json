@@ -5,7 +5,12 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/../server_client_0",
-                "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30037\\include"
+                "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30037\\include",
+                "${workspaceFolder}/obfuscate1",
+                "${workspaceFolder}/obfuscate2",
+                "${workspaceFolder}/obfuscate3",
+                "${workspaceFolder}/obfuscate4",
+                "${workspaceFolder}/obfuscate5"
             ],
             "defines": [
                 "_DEBUG",

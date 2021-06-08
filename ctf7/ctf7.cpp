@@ -20,20 +20,20 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    unsigned char hashes[ITEM_COUNT][BUFFSIZE] = \
+    unsigned char hashes[ITEM_COUNT][BUFSIZE] = \
     {
         { 0x0A, 0x0F, 0x6B, 0x88, 0x35, 0x4D, 0xE7, 0xAF, 0xE8, 0x4B, 0x8A, 0x07, 0xDF, 0xAD, 0xCC, 0x26 },
     };
-    char flags[ITEM_COUNT][BUFFSIZE] = \
+    char flags[ITEM_COUNT][BUFSIZE] = \
     {
         "those aren't my waffles",
     };
-    char input[BUFFSIZE] = {0};
-    char hash[BUFFSIZE] = {0};
+    char input[BUFSIZE] = {0};
+    char hash[BUFSIZE] = {0};
 
     printf("Please enter CTF%d password: ", CTFNUM);
     int c = '\0', charcount = 0;
-    while (((c = getchar()) != EOF) && (c != '\n') && (charcount < (BUFFSIZE - 1)))
+    while (((c = getchar()) != EOF) && (c != '\n') && (charcount < (BUFSIZE - 1)))
     {
         if (c == '\n')
         {

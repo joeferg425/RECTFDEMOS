@@ -4,8 +4,14 @@ CUR_DIRNAME=$(shell basename "$(CURDIR)")
 NAME=$(CUR_DIRNAME)
 OUTDIR_NIX=./bin
 OUTDIR_WIN=.\\bin
-INCLUDE_NIX=-I ../obfuscate4
-INCLUDE_WIN=/I ..\\obfuscate4
+INCLUDE_NIX=-I ./
+INCLUDE_WIN=/I .\\
+
+ifeq ($(CUR_DIRNAME), "RECTFDEMOS")
+	CHANGE_DIR := cd .
+else
+	CHANGE_DIR := cd ..
+endif
 
 ifeq ($(OS),Windows_NT)
 	CLEAN_CMD := clean_windows
@@ -13,14 +19,14 @@ ifeq ($(OS),Windows_NT)
 	REBUILD_CMD := rebuild_windows
 	CONTAINER_EXISTS := $(shell docker ps -a | findstr $(NAME) > nul 2>&1 && echo %errorlevel%)
 	IMAGE_EXISTS := $(shell docker image ls | findstr $(NAME)_img > nul 2>&1 && echo %errorlevel%)
-	DOCKER_BUILD_CMD := cd .. & docker build . -f $(NAME)\\dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
+	DOCKER_BUILD_CMD := $(CHANGE_DIR) & docker build . -f $(NAME)\\dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
 else
 	CLEAN_CMD := clean_linux
 	BUILD_CMD := build_linux
 	REBUILD_CMD := rebuild_linux
 	CONTAINER_EXISTS := $(shell docker ps -a | grep $(NAME) 2>&1 > /dev/null ; echo $$?)
 	IMAGE_EXISTS := $(shell docker image ls | grep $(NAME)_img 2>&1 > /dev/null ; echo $$?)
-	DOCKER_BUILD_CMD := cd .. ; docker build . -f ./$(NAME)/dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
+	DOCKER_BUILD_CMD := $(CHANGE_DIR) ; docker build . -f ./$(NAME)/dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
 endif
 
 ifeq ($(CONTAINER_EXISTS), 0)
@@ -41,8 +47,8 @@ install_linux:
 
 build_windows_x86:
 	@if not exist $(OUTDIR_WIN) mkdir $(OUTDIR_WIN)
-	cl.exe $(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.obj /DEBUG /ZI /F5
 	cl.exe $(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe.obj
+	cl.exe /DEBUG /ZI /F5 $(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.obj
 	@if exist .\\*.idb move .\\*.idb $(OUTDIR_WIN)\\
 	@if exist .\\*.pdb move .\\*.pdb $(OUTDIR_WIN)\\
 clean_windows_x86:

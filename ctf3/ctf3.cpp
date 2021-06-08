@@ -2,57 +2,53 @@
 Obfuscated password
 Clear-text flag
 
-pass: tinker
-flag: G0ld1
+pass: G0ld1
+flag: Unobtanium9000
 
 */
 
 #include <stdio.h>
-#include <string>
 #include <string.h>
 #include <stdlib.h>
+#include "obfuscate2.hpp"
 
 using namespace std;
 
-#define BUFFSIZE 25
+#define BUFSIZE 25
 #define CTFNUM 3
-
-const char *str = "G0ld1";
 
 int main(int argc, char** argv)
 {
     int success = 0;
-    // int password_i[BUFFSIZE] = { 0x00C2CAF2 };
-    unsigned int password_i[BUFFSIZE] = { 0xD6DCD2E8, 0x0000E4CA };
+    unsigned int password_i[BUFSIZE] = { 0xC8D8608E, 0x00000062 };
     const char *distratction1 = "Silver2";
     const char *distratction2 = "Bronze33";
     const char *distratction3 = "PlatinumBaby!";
     const char* flag = "Unobtanium9000";
-    string input = "";
-    char *pw = (char*)&password_i;
+    unsigned char password_c[BUFSIZE] = { 0 };
+    char input[BUFSIZE] = {0};
+    char password[BUFSIZE] = {0};
+    int password_len = 0;
+    deobfuscate2(password_i, BUFSIZE, password_c, &password_len);
 
     printf("Please enter CTF%d password: ", CTFNUM);
-    flag = str;
     int c = '\0';
-    string s = "";
-    while ((c = getchar()) != EOF)
+    int counter = 0;
+    while (((c = getchar()) != EOF) && (counter < (BUFSIZE - 1)))
     {
-        char cc = (char)c;
-        if (cc == '\n')
+        if (c == '\n')
         {
             break;
         }
-        input += cc;
+        input[counter] = (unsigned char)c;
+        counter++;
     }
+    // input[counter] = 0;
     // this de-obfuscates the string
-    for (int i = 0; i < BUFFSIZE; i++)
-    {
-        password_i[i] = (password_i[i] / 2);
-    }
-    success = strcmp(input.c_str(), pw);
+    success = strcmp((char*)input, (char*)password_c);
     if (success)
     {
-        printf("Sorry, '%s' is not the CTF%d password\n", input.c_str(), CTFNUM);
+        printf("Sorry, '%s' is not the CTF%d password\n", input, CTFNUM);
     }
     else
     {

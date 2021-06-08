@@ -1,13 +1,13 @@
 FROM gcc
 ARG NAME="ctf"
 ENV CTF_NAME=$NAME
-RUN mkdir /home/build
-COPY ./$CTF_NAME/makefile /home/build/makefile
-COPY ./$CTF_NAME/$CTF_NAME.cpp /home/build/$CTF_NAME.cpp
-COPY ./md5/md5.hpp /home/build/md5.hpp
-COPY ./md5/md5.cpp /home/build/md5.cpp
-WORKDIR /home/build
+RUN mkdir /home/$CTF_NAME
+COPY ./$CTF_NAME/makefile /home/$CTF_NAME/makefile
+COPY ./$CTF_NAME/$CTF_NAME.cpp /home/$CTF_NAME/$CTF_NAME.cpp
+COPY ./md5/md5.hpp /home/$CTF_NAME/md5.hpp
+COPY ./md5/md5.cpp /home/$CTF_NAME/md5.cpp
+WORKDIR /home/$CTF_NAME
 RUN make build_linux_x86
-RUN mv /home/build/bin/${CTF_NAME}_x86_elf /home/ctf
-RUN rm -rf /home/build/
+RUN mv /home/$CTF_NAME/bin/${CTF_NAME}_x86_elf /home/ctf
+RUN rm -rf /home/$CTF_NAME/
 CMD /home/ctf
