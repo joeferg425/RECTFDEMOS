@@ -1,6 +1,6 @@
 default: build
 
-CUR_DIRNAME=$(shell basename "$(CURDIR)")
+CUR_DIRNAME := $(lastword $(subst /, ,$(subst \\,/,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))))
 NAME=$(CUR_DIRNAME)
 OUTDIR_NIX=./bin
 OUTDIR_WIN=.\\bin

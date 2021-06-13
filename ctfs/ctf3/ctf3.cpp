@@ -16,24 +16,32 @@ using namespace std;
 
 #define BUFSIZE 25
 #define CTFNUM 3
+// #define DEBUG_PASSWORD 1
 
 int main(int argc, char** argv)
 {
+    // setup variables
     int success = 0;
-    unsigned int password_i[BUFSIZE] = { 0xC8D8608E, 0x00000062 };
-    const char *distratction1 = "Silver2";
-    const char *distratction2 = "Bronze33";
-    const char *distratction3 = "PlatinumBaby!";
-    const char* flag = "Unobtanium9000";
-    unsigned char password_c[BUFSIZE] = { 0 };
+    unsigned char password[BUFSIZE] = { 0 };
     char input[BUFSIZE] = {0};
-    char password[BUFSIZE] = {0};
     int password_len = 0;
-    deobfuscate2(password_i, BUFSIZE, password_c, &password_len);
-
-    printf("Please enter CTF%d password: ", CTFNUM);
     int c = '\0';
     int counter = 0;
+
+    // obfuscated password
+    unsigned int password_i[BUFSIZE] = { 0xC8D8608E, 0x00000062 };
+    // distractions and flag
+    const char *distraction01 = "Silver2";
+    const char *distraction02 = "Bronze33";
+    const char *distraction03 = "PlatinumBaby!";
+    const char *distraction04 = "stupidPa$$word";
+    const char *distraction05 = "dirtySocks123";
+    const char *distraction06 = "fuzzy8hotdog";
+    deobfuscate2(password_i, BUFSIZE, password, &password_len);
+    const char* flag = "Unobtanium9000";
+
+    // prompt user for password
+    printf("Please enter CTF%d password: ", CTFNUM);
     while (((c = getchar()) != EOF) && (counter < (BUFSIZE - 1)))
     {
         if (c == '\n')
@@ -43,12 +51,34 @@ int main(int argc, char** argv)
         input[counter] = (unsigned char)c;
         counter++;
     }
-    // input[counter] = 0;
-    // this de-obfuscates the string
-    success = strcmp((char*)input, (char*)password_c);
+
+    // this is here as a distraction
+    if ((strcmp((char*)password, (char*)input) == 1000) ||
+        (strcmp(flag, (char*)input) == 1000) ||
+        (strcmp(distraction01, (char*)input) == 1000) ||
+        (strcmp(distraction02, (char*)input) == 1000) ||
+        (strcmp(distraction03, (char*)input) == 1000) ||
+        (strcmp(distraction04, (char*)input) == 1000) ||
+        (strcmp(distraction05, (char*)input) == 1000) ||
+        (strcmp(distraction06, (char*)input) == 1000))
+    {
+        printf("%s %s %s %s %s %s",
+            distraction01,
+            distraction02,
+            distraction03,
+            distraction04,
+            distraction05,
+            distraction06);
+    }
+
+    // compare input against password
+    success = strcmp((char*)input, (char*)password);
     if (success)
     {
         printf("Sorry, '%s' is not the CTF%d password\n", input, CTFNUM);
+        #ifdef DEBUG_PASSWORD
+        printf("CTF%d password is \"%s\"\n", CTFNUM, (char*)password);
+        #endif
     }
     else
     {

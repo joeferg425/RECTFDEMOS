@@ -5,7 +5,6 @@
 	$(MAKE) -C ./ctfs/ctf4 $@
 	$(MAKE) -C ./ctfs/ctf5 $@
 	$(MAKE) -C ./ctfs/ctf6 $@
-	# $(MAKE) -C ./ctfs/ctf7 $@
 	$(MAKE) -C ./helpers/obfuscate1 $@
 	$(MAKE) -C ./helpers/obfuscate2 $@
 	$(MAKE) -C ./helpers/obfuscate3 $@

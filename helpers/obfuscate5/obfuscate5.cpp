@@ -31,6 +31,7 @@ int main(int argc, char** argv)
         strcpy((char*)buffer_c, argv[1]);
         buffer_c_len_i = strlen(argv[1]);
     }
+    buffer_c_len_i++;
 
     printf("Input : ");
     for (int i = 0; i < buffer_c_len_i; i++)
