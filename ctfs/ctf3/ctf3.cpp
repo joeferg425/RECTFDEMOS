@@ -9,24 +9,25 @@ flag: Unobtanium9000
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include "obfuscate2.hpp"
+#include "get_input.hpp"
+#include "char2scaledint.hpp"
 
 using namespace std;
 
-#define BUFSIZE 25
+#define BUFSIZE 512
 #define CTFNUM 3
+#define OBFUSCATION_MULTIPLIER 2
 // #define DEBUG_PASSWORD 1
 
 int main(int argc, char** argv)
 {
     // setup variables
     int success = 0;
-    unsigned char password[BUFSIZE] = { 0 };
-    char input[BUFSIZE] = {0};
     int password_len = 0;
     int c = '\0';
     int counter = 0;
+    unsigned char password[BUFSIZE] = { 0 };
+    char input[BUFSIZE] = {0};
 
     // obfuscated password
     unsigned int password_i[BUFSIZE] = { 0xC8D8608E, 0x00000062 };
@@ -37,20 +38,13 @@ int main(int argc, char** argv)
     const char *distraction04 = "stupidPa$$word";
     const char *distraction05 = "dirtySocks123";
     const char *distraction06 = "fuzzy8hotdog";
-    deobfuscate2(password_i, BUFSIZE, password, &password_len);
-    const char* flag = "Unobtanium9000";
+    const char flag[BUFSIZE] = "Unobtanium9000";
+    char prompt[BUFSIZE] = "";
+    scaledint2char(password_i, BUFSIZE, password, &password_len, OBFUSCATION_MULTIPLIER);
 
     // prompt user for password
-    printf("Please enter CTF%d password: ", CTFNUM);
-    while (((c = getchar()) != EOF) && (counter < (BUFSIZE - 1)))
-    {
-        if (c == '\n')
-        {
-            break;
-        }
-        input[counter] = (unsigned char)c;
-        counter++;
-    }
+    sprintf(prompt, "Please enter CTF%d password: ", CTFNUM);
+    counter = get_input(argc, argv, prompt, (unsigned char*)input, BUFSIZE);
 
     // this is here as a distraction
     if ((strcmp((char*)password, (char*)input) == 1000) ||

@@ -9,7 +9,8 @@ flag: down with gravity
 
 #include <stdio.h>
 #include <string.h>
-#include "obfuscate1.hpp"
+#include "get_input.hpp"
+#include "char2int.hpp"
 
 using namespace std;
 
@@ -34,23 +35,16 @@ int main(int argc, char** argv)
     char distraction02[BUFSIZE] = "imaginary numbers are unrealistic";
     char distraction03[BUFSIZE] = "syntax stupid is";
     // de-obfuscate password in the middle of all this because
-    deobfuscate1(password_i, BUFSIZE, password, &password_len);
+    int2char(password_i, BUFSIZE, password, &password_len);
     char distraction04[BUFSIZE] = "ninety-nine problems and math is one";
     char distraction05[BUFSIZE] = "cooking theory is food for thought";
     char distraction06[BUFSIZE] = "oct31 = dec25";
     char distraction07[BUFSIZE] = "read terry pratchett";
+    char prompt[BUFSIZE] = "";
 
     // prompt user for password
-    printf("Please enter CTF%d password: ", CTFNUM);
-    while (((c = getchar()) != EOF) && (counter < (BUFSIZE - 1)))
-    {
-        if (c == '\n')
-        {
-            break;
-        }
-        input[counter] = (unsigned char)c;
-        counter++;
-    }
+    sprintf(prompt, "Please enter CTF%d password: ", CTFNUM);
+    counter = get_input(argc, argv, prompt, input, BUFSIZE);
 
     // compare the input against the password
     if (strcmp((char*)password, (char*)input) != 0)

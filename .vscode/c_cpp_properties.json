@@ -3,14 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/../server_client_0",
-                "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30037\\include",
-                "${workspaceFolder}/helpers/obfuscate1",
-                "${workspaceFolder}/helpers/obfuscate2",
-                "${workspaceFolder}/helpers/obfuscate3",
-                "${workspaceFolder}/helpers/obfuscate4",
-                "${workspaceFolder}/helpers/obfuscate5"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -22,6 +15,16 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
         }
     ],
     "version": 4

@@ -1,3 +1,6 @@
+install:
+	apt-get install build-essential gcc-powerpc-linux-gnu g++-powerpc-linux-gnu binutils-powerpc-linux-gnu gcc-arm-linux-gnueabi g++-arm-linux-gnueabi binutils-arm-linux-gnueabi
+
 %:
 	$(MAKE) -C ./ctfs/ctf1 $@
 	$(MAKE) -C ./ctfs/ctf2 $@

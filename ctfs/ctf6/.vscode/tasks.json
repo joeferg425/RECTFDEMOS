@@ -4,24 +4,19 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "rebuild_linux",
+			"label": "rebuild",
 			"type": "shell",
-			"command": "make rebuild_linux",
+			"windows": {
+				"command": "make rebuild_windows",
+			},
+			"linux": {
+				"command": "make rebuild_linux",
+			},
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			}
-		},
-		{
-			"label": "rebuild_windows",
-			"type": "shell",
-			"command": "make rebuild_windows",
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
+		}
 	]
 }

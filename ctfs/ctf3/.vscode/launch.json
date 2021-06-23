@@ -8,11 +8,11 @@
 			"name": "windows",
 			"type": "cppvsdbg",
 			"request": "launch",
-			"preLaunchTask": "rebuild_windows",
+			"preLaunchTask": "rebuild",
 			"program": "${workspaceFolder}\\bin\\${workspaceFolderBasename}_x86_pe_debug.exe",
 			"args": [
-				"password",
-				"tacocat"
+				"G0ld1"
+				// "Unobtanium9000"
 			],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
@@ -22,10 +22,13 @@
 		{
 			"name": "linux",
 			"type": "cppdbg",
-			"preLaunchTask": "rebuild_linux",
+			"preLaunchTask": "rebuild",
 			"request": "launch",
 			"program": "${workspaceRoot}/bin/${workspaceFolderBasename}_x86_elf_debug",
-			"args": [],
+			"args": [
+				"G0ld1"
+				// "Unobtanium9000"
+			],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
 			"environment": [],

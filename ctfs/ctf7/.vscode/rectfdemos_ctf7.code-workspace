@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../helpers/md5"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"xstring": "cpp",
+			"xutility": "cpp"
+		},
+		"editor.insertSpaces": true,
+		"editor.tabSize": 4,
+	}
+}

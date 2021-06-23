@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../helpers/charminus"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"xstring": "cpp",
+			"xutility": "cpp"
+		},
+		"editor.insertSpaces": true,
+		"editor.tabSize": 4,
+	}
+}
