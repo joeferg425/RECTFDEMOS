@@ -11,7 +11,7 @@ flag: Bluesteel
 #include <string.h>
 #include <stdlib.h>
 #include "get_input.hpp"
-#include "charxor.hpp"
+#include "char2byte_xor.hpp"
 
 using namespace std;
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     const char *distraction05 = "baseball";
     const char *distraction06 = "867-5309";
     char prompt[BUFSIZE] = {0};
-    charXOR(flag_ob, BUFSIZE, flag, &flag_len, XOR_VAL);
+    char2byte_xor(flag_ob, BUFSIZE, flag, &flag_len, XOR_VAL);
 
     // prompt user for password
     sprintf(prompt, "Please enter CTF%d password: ", CTFNUM);

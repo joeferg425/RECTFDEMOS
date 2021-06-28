@@ -8,11 +8,11 @@ install:
 	$(MAKE) -C ./ctfs/ctf4 $@
 	$(MAKE) -C ./ctfs/ctf5 $@
 	$(MAKE) -C ./ctfs/ctf6 $@
-	$(MAKE) -C ./helpers/obfuscate1 $@
-	$(MAKE) -C ./helpers/obfuscate2 $@
-	$(MAKE) -C ./helpers/obfuscate3 $@
-	$(MAKE) -C ./helpers/obfuscate4 $@
-	$(MAKE) -C ./helpers/obfuscate5 $@
+	$(MAKE) -C ./helpers/char2int $@
+	$(MAKE) -C ./helpers/char2int_scaled $@
+	$(MAKE) -C ./helpers/char2byte_offset $@
+	$(MAKE) -C ./helpers/char2byte_xor $@
+	$(MAKE) -C ./helpers/crclike $@
 	$(MAKE) -C ./helpers/crc16 $@
 	$(MAKE) -C ./helpers/md5 $@
 	$(MAKE) -C ./helpers/server_client_2 $@

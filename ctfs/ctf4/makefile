@@ -4,8 +4,8 @@ CUR_DIRNAME := $(lastword $(subst /, ,$(subst \\,/,$(dir $(abspath $(lastword $(
 NAME=$(CUR_DIRNAME)
 OUTDIR_NIX=./bin
 OUTDIR_WIN=.\\bin
-INCLUDE_NIX=-I ../../helpers -I ../../helpers/charXOR
-INCLUDE_WIN=/I ..\\..\\helpers /I ..\\..\\helpers\\charXOR
+INCLUDE_NIX=-I ../../helpers -I ../../helpers/char2byte_xor
+INCLUDE_WIN=/I ..\\..\\helpers /I ..\\..\\helpers\\char2byte_xor
 
 ifeq ($(OS),Windows_NT)
 	CLEAN_CMD := clean_windows

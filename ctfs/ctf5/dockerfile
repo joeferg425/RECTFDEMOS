@@ -4,7 +4,7 @@ ENV CTF_NAME=$NAME
 RUN mkdir /home/$CTF_NAME
 COPY ./ctfs/$CTF_NAME/makefile /home/$CTF_NAME/makefile
 COPY ./ctfs/$CTF_NAME/$CTF_NAME.cpp /home/$CTF_NAME/$CTF_NAME.cpp
-COPY ../../helpers/charminus/charminus.hpp /home/$CTF_NAME/charminus.hpp
+COPY ../../helpers/char2byte_offset/char2byte_offset.hpp /home/$CTF_NAME/char2byte_offset.hpp
 COPY ../../helpers/get_input.hpp /home/$CTF_NAME/get_input.hpp
 WORKDIR /home/$CTF_NAME
 RUN make build_linux_x86

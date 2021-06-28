@@ -8,7 +8,7 @@ This obfuscation project simply converts ascii to hexadecimal values and combine
 
 #define BUFSIZE 1024
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     unsigned char buffer_c[BUFSIZE] = {0};
     unsigned int buffer_i[BUFSIZE] = {0};
@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     }
     printf(" (%d ints)\n", buffer_i_len_i);
 
-    int2char(buffer_i, buffer_i_len_i, buffer_c, &buffer_c_len_i);
+    undo_char2int(buffer_i, buffer_i_len_i, buffer_c, &buffer_c_len_i);
     printf("Revert: ");
     for (int i = 0; i < buffer_c_len_i; i++)
     {

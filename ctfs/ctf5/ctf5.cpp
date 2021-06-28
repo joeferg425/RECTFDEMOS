@@ -11,7 +11,7 @@ flag: Velociraptor
 #include <string.h>
 #include <stdlib.h>
 #include "get_input.hpp"
-#include "charminus.hpp"
+#include "char2byte_offset.hpp"
 
 using namespace std;
 
@@ -42,8 +42,8 @@ int main(int argc, char **argv)
     char prompt[BUFSIZE] = {0};
 
     // password and flag are obfuscated this time
-    deobfuscate4(password_ob, BUFSIZE, password, &password_len, MINUS_VAL);
-    deobfuscate4(flag_ob, BUFSIZE, flag, &flag_len, MINUS_VAL);
+    undo_char2byte_offset(password_ob, BUFSIZE, password, &password_len, MINUS_VAL);
+    undo_char2byte_offset(flag_ob, BUFSIZE, flag, &flag_len, MINUS_VAL);
 
     // prompt for password
     sprintf(prompt, "Please enter CTF%d password: ", CTFNUM);

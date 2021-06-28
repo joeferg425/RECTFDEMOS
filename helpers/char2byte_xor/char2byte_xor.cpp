@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "get_input.hpp"
-#include "charxor.hpp"
+#include "char2byte_xor.hpp"
 
 #define BUFSIZE 1024
 #define CRYPTO_XOR 0x66
@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     }
     printf(" (%d bytes)\n", buffer_c_len_i);
 
-    charXOR(buffer_c, buffer_c_len_i, buffer_ob_c, &buffer_ob_len_i, CRYPTO_XOR);
+    char2byte_xor(buffer_c, buffer_c_len_i, buffer_ob_c, &buffer_ob_len_i, CRYPTO_XOR);
     printf("Output: ");
     for (int i = 0; i < buffer_ob_len_i; i++)
     {
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     }
     printf(" (%d bytes)\n", buffer_ob_len_i);
 
-    charXOR(buffer_ob_c, buffer_ob_len_i, buffer_c, &buffer_c_len_i, CRYPTO_XOR);
+    char2byte_xor(buffer_ob_c, buffer_ob_len_i, buffer_c, &buffer_c_len_i, CRYPTO_XOR);
     printf("Revert: ");
     for (int i = 0; i < buffer_c_len_i; i++)
     {
