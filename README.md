@@ -3,11 +3,11 @@
 
 ## Exercises
 1. [CTF1](ctfs/ctf1/CTF1_README.md)
-1. [CTF2](./ctfs/ctf2/README.md)
-1. [CTF3](./ctfs/ctf3/README.md)
-1. [CTF4](./ctfs/ctf4/README.md)
-1. [CTF5](./ctfs/ctf5/README.md)
-1. [CTF6](./ctfs/ctf6/README.md)
+1. [CTF2](ctfs/ctf2/CTF2_README.md)
+1. [CTF3](ctfs/ctf3/CTF3_README.md)
+1. [CTF4](ctfs/ctf4/CTF4_README.md)
+1. [CTF5](ctfs/ctf5/CTF5_README.md)
+1. [CTF6](ctfs/ctf6/CTF6_README.md)
 
 
 ## Building in windows
