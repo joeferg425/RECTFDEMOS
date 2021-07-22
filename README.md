@@ -2,7 +2,7 @@
 
 
 ## Exercises
-1. [CTF1](./ctfs/ctf1/README.md)
+1. [CTF1](ctfs/ctf1/CTF1_README.md)
 1. [CTF2](./ctfs/ctf2/README.md)
 1. [CTF3](./ctfs/ctf3/README.md)
 1. [CTF4](./ctfs/ctf4/README.md)
