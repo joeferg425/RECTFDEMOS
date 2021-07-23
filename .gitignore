@@ -37,3 +37,9 @@ bin/
 *.pdb
 *.idb
 *.obj
+
+# ghidra
+*.gpr
+*.lock
+*.lock~
+RECTFDEMOS.rep/
