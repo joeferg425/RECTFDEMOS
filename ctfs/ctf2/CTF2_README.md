@@ -19,11 +19,11 @@
         - Open binary in HxD
         - Find `ELF` at address `0x0`
 
-            ![hxd header](readme_files/x86_elf_hxd_header.png)
+            ![hxd header](readme_files/arm_elf_hxd_header.png)
 
         - Scroll until you find suspicious looking strings
 
-            ![hxd strings](readme_files/x86_elf_hxd_strings.png)
+            ![hxd strings](readme_files/arm_elf_hxd_strings.png)
 
     - Linux
         - Find `ELF` at address `0x0`
