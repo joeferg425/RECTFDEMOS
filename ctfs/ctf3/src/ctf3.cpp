@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     const char *distraction04 = "stupidPa$$word";
     const char *distraction05 = "dirtySocks123";
     const char *distraction06 = "fuzzy8hotdog";
-    const char flag[BUFSIZE] = "Unobtanium9000";
+    const char *flag = "Unobtanium9000";
     char prompt[BUFSIZE] = "";
     undo_char2int_scaled(password_i, BUFSIZE, password, &password_len, OBFUSCATION_MULTIPLIER);
 
