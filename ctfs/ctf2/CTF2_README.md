@@ -1,46 +1,78 @@
-# Capture the Flag #2
+# Capture the Flag #2 #
 
 [Index](../../README.md)
 
-## Goals
+## Goals ##
 - Familiarization with binary inspection tools
 - Introduction to assembly instructions
 - Introduce obfuscation concepts
-- Introduce stripped binary vs binary with debug symbols
 
-## Required Tools
+## Required Tools ##
 - [strings](https://linux.die.net/man/1/strings) / [hexdump](https://linux.die.net/man/1/hexdump) (linux)
 - [HxD hex editor](https://mh-nexus.de/en/hxd/) (windows)
 - [Ghidra Reverse Engineering Software](https://ghidra-sre.org/)
 
-## Solution:
-1. Search strings in binary `ctf2_arm_elf`
-    - Windows
-        - Open binary in HxD
-        - Find `ELF` at address `0x0`
+## Description ##
+This exercise uses a binary built from the CTF2 source. When you run the CTF2 binary, you will see the following prompt:
 
-            ![hxd header](readme_files/arm_elf_hxd_header.png)
+![ctf2 prompt](readme_files/ctf2_prompt.png)
 
-        - Scroll until you find suspicious looking strings
+You can enter any string of text that you would like, followed by the `enter` key. If you get the password wrong, you will get a message like the following:
 
-            ![hxd strings](readme_files/arm_elf_hxd_strings.png)
+![ctf2 wrong password](readme_files/ctf2_wrong_password.png)
 
-    - Linux
-        - Find `ELF` at address `0x0`
+If you get the password correct, you will get a message like the following, but with legible text:
 
-            `$ hexdump ctfs/ctf2/bin/ctf2_arm_elf -C | grep ELF`
+![ctf2 correct password](readme_files/ctf2_correct_password.png)
 
-            ![hexdump](readme_files/arm_elf_hexdump.png)
+It is useful to note that you can also give the password to the binary as an argument for faster testing.
 
-        - Strings near `0x1000`
+![ctf2 password argument](readme_files/ctf2_password_arg.png)
+
+The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though. 
+
+The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output. 
+
+Instead of going to the source, the challenge for the beginner binary hacker is to use the walkthrough below to guide you through the process of capturing the flag using some of the most basic binary reverse engineering tools.
+
+**Obfuscation** in this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as integers instead of as C's char or byte [data types](https://en.wikipedia.org/wiki/C_data_types).
+
+## Solution ##
+There are two proposed solutions to this exercise. It is good to be familiar with both, but the Ghidra method will be the most useful for all but the most basic string searches. I suggest you try both.
+
+- [Manually Search the strings](#Manually-search-strings-in-binary) compiled into the binary manually using a tool like [strings](https://linux.die.net/man/1/strings), [hexdump](https://linux.die.net/man/1/hexdump), or [HxD](https://mh-nexus.de/en/hxd/) until you find a likely candidate and then copy it into the ctf1 prompt.
+- [Using a reverse engineering tool](#Explore-in-Ghidra) such as [Ghidra]s(https://ghidra-sre.org/), search the strings compiled into the binary and determine which text string is the right one by finding where it is compared against the user input.
+
+1. ### Manually search strings in binary ###
+    - Search strings in binary "`ctf2_arm_elf`" ###
+        - Windows
+            - Open binary in HxD        
+                Find `ELF` at address `0x0`
+
+                ![hxd header](readme_files/arm_elf_hxd_header.png)
+
+            - Scroll until you find suspicious looking strings
+
+                ![hxd strings](readme_files/arm_elf_hxd_strings.png)
+
+        - Linux
+            - Use hexdump
+
+                `$ hexdump ctfs/ctf2/bin/ctf2_arm_elf -C | grep ELF`
+
+                ![hexdump](readme_files/arm_elf_hexdump.png)
+
+            - Find `ELF` at address `0x0`
+
+        - Locate strings near `0x1000`
 
             `$ strings ctfs/ctf2/bin/ctf2_arm_elf -t x -a | more`
 
             ![strings](readme_files/arm_elf_strings.png)
 
-1. Find password or flag using Ghidra
+1. ### Find password or flag using Ghidra ###
 
-    - Open binary in Ghidra
+    - import "`ctf2_arm_elf`" binary in Ghidra
 
     - Open strings window using Menu `Window->Defined Strings`
 

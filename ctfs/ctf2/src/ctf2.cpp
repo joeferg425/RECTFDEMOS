@@ -1,5 +1,5 @@
 /*
-Clear-text password
+int password
 Clear-text flag
 
 pass: Fo0B4r
