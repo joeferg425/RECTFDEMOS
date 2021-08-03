@@ -21,11 +21,11 @@ You can enter any string of text that you would like, followed by the `enter` ke
 
 If you get the password correct, you will get a message like the following, but with legible text:
 
-![ctf3 correct password](readme_files/ctf3_correct_password.png) 
+![ctf3 correct password](readme_files/ctf3_correct_password.png)
 
-The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though. 
+The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though.
 
-The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output. 
+The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output.
 
 Instead of going to the source, the challenge for the beginner binary hacker is to use the walkthrough below to guide you through the process of capturing the flag using some of the most basic binary reverse engineering tools.
 
@@ -40,9 +40,9 @@ Instead of going to the source, the challenge for the beginner binary hacker is 
         Notice `.ELF` at address `0x0`
 
     - Print strings with their hexadecimal offsets
-        
+
         `$ strings -t x bin/ctf3_ppc_elf`
-        
+
         Interesting strings near `0xF9C`
 
 2. Use Ghidra
@@ -73,7 +73,7 @@ Instead of going to the source, the challenge for the beginner binary hacker is 
 
         ![password bytes](readme_files/ghidra_password_bytes.png)
 
-    - Go back to where the password and flag are to trace the flag logic instead. 
+    - Go back to where the password and flag are to trace the flag logic instead.
 
         ![flag variable](readme_files/ghidra_flag_variable.png)
 

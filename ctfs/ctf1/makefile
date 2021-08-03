@@ -56,7 +56,7 @@ build_windows_x86:
 	@echo NAME: $(NAME)
 	@if not exist $(OUTDIR_WIN) mkdir $(OUTDIR_WIN)
 	cl.exe $(SOURCE_WIN)\\$(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe.obj
-	cl.exe $(SOURCE_WIN)\\$(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.obj /DEBUG /ZI /F5 
+	cl.exe $(SOURCE_WIN)\\$(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.obj /DEBUG /ZI /F5
 	@if exist .\\*.idb move .\\*.idb $(OUTDIR_WIN)\\
 	@if exist .\\*.pdb move .\\*.pdb $(OUTDIR_WIN)\\
 clean_windows_x86:

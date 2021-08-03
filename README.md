@@ -13,7 +13,7 @@
 ## Building in windows
 1. Install Visual Studio Code
 1. Open this repository / folder in VS Code
-1. Install `CygWin` / [mingw](http://mingw-w64.org/) / [mingw make](http://gnuwin32.sourceforge.net/packages/make.htm)
+1. Install `CygWin` / [Mingw](http://mingw-w64.org/) / [Mingw make](http://gnuwin32.sourceforge.net/packages/make.htm)
 1. Install Microsoft Visual Studio Developer tools (installs individually or as part of Microsoft Visual Studio)
 1. Launch `Developer Command Prompt for VS 20<XX>`
 1. Type `code` on the command line and press `Enter`

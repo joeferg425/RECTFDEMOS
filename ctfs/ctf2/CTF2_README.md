@@ -29,9 +29,9 @@ It is useful to note that you can also give the password to the binary as an arg
 
 ![ctf2 password argument](readme_files/ctf2_password_arg.png)
 
-The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though. 
+The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though.
 
-The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output. 
+The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output.
 
 Instead of going to the source, the challenge for the beginner binary hacker is to use the walkthrough below to guide you through the process of capturing the flag using some of the most basic binary reverse engineering tools.
 
@@ -46,7 +46,7 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 1. ### Manually search strings in binary ###
     - Search strings in binary "`ctf2_arm_elf`" ###
         - Windows
-            - Open binary in HxD        
+            - Open binary in HxD
                 Find `ELF` at address `0x0`
 
                 ![hxd header](readme_files/arm_elf_hxd_header.png)
@@ -88,17 +88,17 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
         ![ghidra string](readme_files/arm_elf_ghidra_compare.png)
 
-    - Scroll up to the point at which `local_80c` is assigned. 
+    - Scroll up to the point at which `local_80c` is assigned.
 
-        You will note that in the assembly the string assignment (the string starting with `"down with"`) is visible despite being incomprehensible in c code. This appears to be the flag. 
+        You will note that in the assembly the string assignment (the string starting with `"down with"`) is visible despite being incomprehensible in c code. This appears to be the flag.
 
         ![80c assignment](readme_files/arm_elf_ghidra_80c_assignment.png)
 
-    - Scroll to the point at which `local_a0c` is assigned. 
+    - Scroll to the point at which `local_a0c` is assigned.
 
         ![80c assignment](readme_files/arm_elf_ghidra_a0c_assignment.png)
 
-        That isn't very interesting, find where else it is used. 
+        That isn't very interesting, find where else it is used.
 
         ![80c assignment](readme_files/arm_elf_ghidra_a0c_assignment2.png)
 
@@ -108,7 +108,7 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
         `char * strncpy ( char * destination, const char * source, size_t num );`
 
-        Which will copy up to 256 bytes of string `local_f0c` into string `local_a0c`. This means that `local_f0c` is, in fact, the password. Lets find where `local_f0c` is assigned. 
+        Which will copy up to 256 bytes of string `local_f0c` into string `local_a0c`. This means that `local_f0c` is, in fact, the password. Lets find where `local_f0c` is assigned.
 
         ![f0c assignment](readme_files/arm_elf_ghidra_f0c_assignment.png)
 
@@ -118,6 +118,6 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
         Click on `DAT_00010edc` and press the single quote (`"'"`) key on the keyboard to cycle through string formats. This confirms that the data is ASCII, so format it as a string by right clicking on the label of the address and selecting `Data->string`
 
-        ![make string](readme_files/arm_elf_ghidra_make_string.png) 
+        ![make string](readme_files/arm_elf_ghidra_make_string.png)
 
         The string value of the password is now clearly visible.

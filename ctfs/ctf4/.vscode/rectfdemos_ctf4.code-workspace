@@ -4,7 +4,7 @@
 			"path": ".."
 		},
 		{
-			"path": "../../../helpers/charxor"
+			"path": "../../../helpers/char2byte_xor"
 		}
 	],
 	"settings": {
@@ -14,5 +14,6 @@
 		},
 		"editor.insertSpaces": true,
 		"editor.tabSize": 4,
+		"files.trimTrailingWhitespace": true,
 	}
 }
