@@ -102,14 +102,17 @@ clean_linux_ppc:
 	rm -f $(OUTDIR)/$(CLIENT)_ppc_elf*
 rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
 
-build_linux: build_linux_x86 build_linux_arm build_linux_ppc
-clean_linux: clean_linux_x86 clean_linux_arm clean_linux_ppc
-rebuild_linux: rebuild_linux_x86 rebuild_linux_arm rebuild_linux_ppc
+build_in_docker_windows:
+	@:
 
 build_docker:
 	$(DOCKER_BUILD)
 run_docker: build_docker
 	$(DOCKER_LAUNCH)
+
+build_linux: build_linux_x86 build_linux_arm build_linux_ppc
+clean_linux: clean_linux_x86 clean_linux_arm clean_linux_ppc
+rebuild_linux: rebuild_linux_x86 rebuild_linux_arm rebuild_linux_ppc
 
 build: $(BUILD_CMD)
 clean: $(CLEAN_CMD)

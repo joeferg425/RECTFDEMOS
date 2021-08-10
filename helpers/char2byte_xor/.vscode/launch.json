@@ -11,8 +11,6 @@
 			"preLaunchTask": "rebuild",
 			"program": "${workspaceFolder}\\bin\\${workspaceFolderBasename}_x86_pe_debug.exe",
 			"args": [
-				"Unbr4kable"
-				// "Bluesteel"
 			],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
@@ -26,8 +24,6 @@
 			"request": "launch",
 			"program": "${workspaceRoot}/bin/${workspaceFolderBasename}_x86_elf_debug",
 			"args": [
-				"Unbr4kable"
-				// "Bluesteel"
 			],
 			"stopAtEntry": false,
 			"cwd": "${workspaceRoot}",

@@ -11,8 +11,6 @@
 			"preLaunchTask": "rebuild",
 			"program": "${workspaceFolder}\\bin\\${workspaceFolderBasename}_x86_pe_debug.exe",
 			"args": [
-				"L324\\$@#LL@#\\$Ld2LL\\$23\\$5d"
-				// "wow, that's a pretty long string for a flag man...and there's not even any special characters or anything"
 			],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
@@ -26,8 +24,6 @@
 			"request": "launch",
 			"program": "${workspaceRoot}/bin/${workspaceFolderBasename}_x86_elf_debug",
 			"args": [
-				"L324\\$@#LL@#\\$Ld2LL\\$23\\$5d"
-				// "wow, that's a pretty long string for a flag man...and there's not even any special characters or anything"
 			],
 			"stopAtEntry": false,
 			"cwd": "${workspaceRoot}",

@@ -102,6 +102,9 @@ clean_linux_ppc:
 	rm -f $(OUTDIR)/$(CLIENT)_ppc_elf*
 rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
 
+build_in_docker_windows:
+	@:
+
 build_docker:
 	$(DOCKER_BUILD)
 run_docker: build_docker

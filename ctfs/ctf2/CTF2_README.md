@@ -3,16 +3,19 @@
 [Index](../../README.md)
 
 ## Goals ##
+
 - Familiarization with binary inspection tools
 - Introduction to assembly instructions
 - Introduce obfuscation concepts
 
 ## Required Tools ##
+
 - [strings](https://linux.die.net/man/1/strings) / [hexdump](https://linux.die.net/man/1/hexdump) (linux)
 - [HxD hex editor](https://mh-nexus.de/en/hxd/) (windows)
 - [Ghidra Reverse Engineering Software](https://ghidra-sre.org/)
 
 ## Description ##
+
 This exercise uses a binary built from the CTF2 source. When you run the CTF2 binary, you will see the following prompt:
 
 ![ctf2 prompt](readme_files/ctf2_prompt.png)
@@ -38,15 +41,20 @@ Instead of going to the source, the challenge for the beginner binary hacker is 
 **Obfuscation** in this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as integers instead of as C's char or byte [data types](https://en.wikipedia.org/wiki/C_data_types).
 
 ## Solution ##
+
 There are two proposed solutions to this exercise. It is good to be familiar with both, but the Ghidra method will be the most useful for all but the most basic string searches. I suggest you try both.
 
 - [Manually Search the strings](#Manually-search-strings-in-binary) compiled into the binary manually using a tool like [strings](https://linux.die.net/man/1/strings), [hexdump](https://linux.die.net/man/1/hexdump), or [HxD](https://mh-nexus.de/en/hxd/) until you find a likely candidate and then copy it into the ctf1 prompt.
-- [Using a reverse engineering tool](#Explore-in-Ghidra) such as [Ghidra]s(https://ghidra-sre.org/), search the strings compiled into the binary and determine which text string is the right one by finding where it is compared against the user input.
+- [Using a reverse engineering tool](#Explore-in-Ghidra) such as [Ghidra](https://ghidra-sre.org/), search the strings compiled into the binary and determine which text string is the right one by finding where it is compared against the user input.
 
 1. ### Manually search strings in binary ###
-    - Search strings in binary "`ctf2_arm_elf`" ###
+
+    - Search strings in binary "`ctf2_arm_elf`"
+
         - Windows
+
             - Open binary in HxD
+
                 Find `ELF` at address `0x0`
 
                 ![hxd header](readme_files/arm_elf_hxd_header.png)
@@ -56,6 +64,7 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
                 ![hxd strings](readme_files/arm_elf_hxd_strings.png)
 
         - Linux
+
             - Use hexdump
 
                 `$ hexdump ctfs/ctf2/bin/ctf2_arm_elf -C | grep ELF`

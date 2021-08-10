@@ -11,8 +11,6 @@
 			"preLaunchTask": "rebuild_windows",
 			"program": "${workspaceFolder}\\bin\\${workspaceFolderBasename}_x86_pe_debug.exe",
 			"args": [
-				"password",
-				"tacocat"
 			],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
@@ -25,7 +23,8 @@
 			"preLaunchTask": "rebuild_linux",
 			"request": "launch",
 			"program": "${workspaceRoot}/bin/${workspaceFolderBasename}_x86_elf_debug",
-			"args": [],
+			"args": [
+			],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
 			"environment": [],

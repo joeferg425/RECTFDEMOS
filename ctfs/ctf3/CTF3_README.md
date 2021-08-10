@@ -1,16 +1,20 @@
 # Capture the Flag #3 #
 
 [Index](../../README.md)
+
 ## Goals ##
+
 - Familiarization with binary inspection tools
 - Introduce slightly more complex obfuscation reversal
 
 ## Required Tools ##
+
 - [strings](https://linux.die.net/man/1/strings) / [hexdump](https://linux.die.net/man/1/hexdump) (linux)
 - [HxD hex editor](https://mh-nexus.de/en/hxd/) (windows)
 - [Ghidra Reverse Engineering Software](https://ghidra-sre.org/)
 
 ## Description ##
+
 This exercise uses a binary built from the CTF3 source. When you run the CTF3 binary, you will see the following prompt:
 
 ![ctf3 prompt](readme_files/ctf3_prompt.png)
@@ -32,6 +36,7 @@ Instead of going to the source, the challenge for the beginner binary hacker is 
 **Obfuscation** in this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as [integer data](https://en.wikipedia.org/wiki/C_data_types) and scaling the integers.
 
 ## Solution ##
+
 1. Search strings in binary "`ctf3_ppc_elf`"
     - Print hexadecimal value of binary with addresses and ASCII values
 

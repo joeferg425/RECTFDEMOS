@@ -1,13 +1,18 @@
 default: build
 
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+RECTF_DIR_ := $(abspath $(MKFILE_PATH)/../../../ )
+RECTF_DIR:=$(strip $(subst ^, ,$(lastword $(subst /C:/, C:/,$(subst  ,^,$(RECTF_DIR_))))))
 CUR_DIRNAME := $(lastword $(subst /, ,$(subst \\,/,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))))
 NAME=$(CUR_DIRNAME)
-OUTDIR_NIX=./bin
-OUTDIR_WIN=.\\bin
-SOURCE_NIX=./src
-SOURCE_WIN=.\\src
-INCLUDE_NIX=-I ./ -I ../../helpers -I ../../helpers/char2int_scaled
-INCLUDE_WIN=/I .\\ /I ..\\..\\helpers /I ..\\..\\helpers\\char2int_scaled
+OUTDIR_NIX=$(RECTF_DIR)/ctfs/$(NAME)/bin
+OUTDIR_WIN=$(subst /,\\,$(RECTF_DIR))\\ctfs\\$(NAME)\\bin
+SOURCE_NIX=$(RECTF_DIR)/ctfs/$(NAME)/src
+SOURCE_WIN=$(subst /,\\,$(RECTF_DIR))\\ctfs\\$(NAME)\\src
+INCLUDE_NIX=-I ./ -I $(RECTF_DIR)/helpers -I $(RECTF_DIR)/helpers/char2int_scaled
+INCLUDE_WIN=/I .\\ /I $(subst /,\\,$(RECTF_DIR))\\helpers /I $(subst /,\\,$(RECTF_DIR))\\helpers\\char2int_scaled
+DOCKER_INCLUDE_NIX:=-I RECTFDEMOS/helpers -I RECTFDEMOS/helpers/char2int_scaled
+DOCKER_INCLUDE_WIN:=/I RECTFDEMOS\\helpers /I RECTFDEMOS\\helpers\\char2int_scaled
 
 ifeq ($(OS),Windows_NT)
 	CLEAN_CMD := clean_windows
@@ -87,6 +92,11 @@ build_linux_ppc:
 clean_linux_ppc:
 	rm -f $(OUTDIR_NIX)/$(NAME)_ppc_elf*
 rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
+
+build_in_docker_windows:
+	@if not exist $(OUTDIR_WIN) mkdir $(OUTDIR_WIN)
+	@docker start buildtools2019 || docker run --name buildtools2019 -it --mount 'type=bind,source=$(RECTF_DIR),target=C:\RECTFDEMOS' buildtools2019
+	docker exec -it buildtools2019 cmd /k "DevPrompt.bat && cl RECTFDEMOS\ctfs\$(NAME)\src\$(NAME).cpp $(DOCKER_INCLUDE_WIN) /FoRECTFDEMOS\ctfs\$(NAME)\bin\$(NAME).obj /FeRECTFDEMOS\ctfs\$(NAME)\bin\$(NAME).exe && exit"
 
 build_docker:
 	$(DOCKER_BUILD)
