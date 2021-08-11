@@ -3,46 +3,46 @@ default: build
 CUR_DIRNAME := $(lastword $(subst /, ,$(subst \\,/,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))))
 NAME=$(CUR_DIRNAME)
 OUTDIR_NIX=./bin
-OUTDIR_WIN=.\\bin
+OUTDIR_WIN_ESCAPED=.\\bin
 INCLUDE_NIX=-I ./
-INCLUDE_WIN=/I .\\
+INCLUDE_WIN_ESCAPED=/I .\\
 
 ifeq ($(OS),Windows_NT)
 	CLEAN_CMD := clean_windows
 	BUILD_CMD := build_windows
 	REBUILD_CMD := rebuild_windows
-	CONTAINER_EXISTS := $(shell docker ps -a | findstr $(NAME) > nul 2>&1 && echo %errorlevel%)
-	IMAGE_EXISTS := $(shell docker image ls | findstr $(NAME)_img > nul 2>&1 && echo %errorlevel%)
-	DOCKER_BUILD_CMD := cd .. & docker build . -f $(NAME)\\dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
+	EXISTS_NIX_CONTAINER := $(shell docker ps -a | findstr $(NAME) > nul 2>&1 && echo %errorlevel%)
+	EXISTS_NIX_IMAGE := $(shell docker image ls | findstr $(NAME)_img > nul 2>&1 && echo %errorlevel%)
+	DOCKER_NIX_BUILD_CMD := cd .. & docker build . -f $(NAME)\\dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
 else
 	CLEAN_CMD := clean_linux
 	BUILD_CMD := build_linux
 	REBUILD_CMD := rebuild_linux
-	CONTAINER_EXISTS := $(shell docker ps -a | grep $(NAME) 2>&1 > /dev/null ; echo $$?)
-	IMAGE_EXISTS := $(shell docker image ls | grep $(NAME)_img 2>&1 > /dev/null ; echo $$?)
-	DOCKER_BUILD_CMD := cd .. ; docker build . -f ./$(NAME)/dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
+	EXISTS_NIX_CONTAINER := $(shell docker ps -a | grep $(NAME) 2>&1 > /dev/null ; echo $$?)
+	EXISTS_NIX_IMAGE := $(shell docker image ls | grep $(NAME)_img 2>&1 > /dev/null ; echo $$?)
+	DOCKER_NIX_BUILD_CMD := cd .. ; docker build . -f ./$(NAME)/dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
 endif
 
-ifeq ($(CONTAINER_EXISTS), 0)
-	DOCKER_LAUNCH := docker start --attach -i $(NAME)
+ifeq ($(EXISTS_NIX_CONTAINER), 0)
+	NIX_DOCKER_LAUNCH := docker start --attach -i $(NAME)
 else
-	DOCKER_LAUNCH := docker run -it --name $(NAME) $(NAME)_img
+	NIX_DOCKER_LAUNCH := docker run -it --name $(NAME) $(NAME)_img
 endif
 
-ifeq ($(IMAGE_EXISTS), 0)
-	DOCKER_BUILD := @echo "image already built"
+ifeq ($(EXISTS_NIX_IMAGE), 0)
+	NIX_DOCKER_BUILD := @echo "image already built"
 else
-	DOCKER_BUILD := $(DOCKER_BUILD_CMD)
+	NIX_DOCKER_BUILD := $(DOCKER_NIX_BUILD_CMD)
 endif
 
 build_windows_x86:
-	@if not exist $(OUTDIR_WIN) mkdir $(OUTDIR_WIN)
-	cl.exe $(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe.obj
-	cl.exe /DEBUG /ZI /F5 $(NAME).cpp $(INCLUDE_WIN) /Fe$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.exe /Fo$(OUTDIR_WIN)\\$(NAME)_x86_pe_debug.obj
-	@if exist .\\*.idb move .\\*.idb $(OUTDIR_WIN)\\
-	@if exist .\\*.pdb move .\\*.pdb $(OUTDIR_WIN)\\
+	@if not exist $(OUTDIR_WIN_ESCAPED) mkdir $(OUTDIR_WIN_ESCAPED)
+	cl.exe $(NAME).cpp $(INCLUDE_WIN_ESCAPED) /Fe$(OUTDIR_WIN_ESCAPED)\\$(NAME)_x86_pe.exe /Fo$(OUTDIR_WIN_ESCAPED)\\$(NAME)_x86_pe.obj
+	cl.exe /DEBUG /ZI /F5 $(NAME).cpp $(INCLUDE_WIN_ESCAPED) /Fe$(OUTDIR_WIN_ESCAPED)\\$(NAME)_x86_pe_debug.exe /Fo$(OUTDIR_WIN_ESCAPED)\\$(NAME)_x86_pe_debug.obj
+	@if exist .\\*.idb move .\\*.idb $(OUTDIR_WIN_ESCAPED)\\
+	@if exist .\\*.pdb move .\\*.pdb $(OUTDIR_WIN_ESCAPED)\\
 clean_windows_x86:
-	@if exist $(OUTDIR_WIN)\\$(NAME)_x86_pe* del $(OUTDIR_WIN)\\$(NAME)_x86_pe*
+	@if exist $(OUTDIR_WIN_ESCAPED)\\$(NAME)_x86_pe* del $(OUTDIR_WIN_ESCAPED)\\$(NAME)_x86_pe*
 rebuild_windows_x86: clean_windows_x86 build_windows_x86
 
 build_linux_x86:
@@ -75,10 +75,10 @@ rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
 build_in_docker_windows:
 	@:
 
-build_docker:
-	$(DOCKER_BUILD)
-run_docker: build_docker
-	$(DOCKER_LAUNCH)
+build_linux_docker:
+	$(NIX_DOCKER_BUILD)
+run_linux_docker: build_linux_docker
+	$(NIX_DOCKER_LAUNCH)
 
 build_linux: build_linux_x86 build_linux_arm build_linux_ppc
 clean_linux: clean_linux_x86 clean_linux_arm clean_linux_ppc

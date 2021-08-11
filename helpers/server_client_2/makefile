@@ -3,7 +3,7 @@ default: build
 CUR_DIRNAME := $(lastword $(subst /, ,$(subst \\,/,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))))
 NAME=$(CUR_DIRNAME)
 OUTDIR=./bin
-OUTDIR_WIN=.\\bin
+OUTDIR_WIN_ESCAPED=.\\bin
 PWD=`pwd`
 CL=cl.exe
 CL_DBG_ARGS=/DEBUG /ZI /F5
@@ -11,35 +11,35 @@ GCC=gcc
 GCC_DBG_ARGS=-ggdb
 SERVER=server2
 CLIENT=client2
-INCLUDE_WIN=/I ./ /I ../server_client_0 /I ../server_client_1 /I ../crc16
+INCLUDE_WIN_ESCAPED=/I ./ /I ../server_client_0 /I ../server_client_1 /I ../crc16
 INCLUDE_NIX=-I ./ -I ../server_client_0 -I ../server_client_1 -I ../crc16
 
 ifeq ($(OS),Windows_NT)
 	CLEAN_CMD := clean_windows
 	BUILD_CMD := build_windows
 	REBUILD_CMD := rebuild_windows
-	CONTAINER_EXISTS := $(shell docker ps -a | findstr $(NAME) > nul 2>&1 && echo %errorlevel%)
-	IMAGE_EXISTS := $(shell docker image ls | findstr $(NAME)_img > nul 2>&1 && echo %errorlevel%)
-	DOCKER_BUILD_CMD := cd .. & docker build . -f $(NAME)\\dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
+	EXISTS_NIX_CONTAINER := $(shell docker ps -a | findstr $(NAME) > nul 2>&1 && echo %errorlevel%)
+	EXISTS_NIX_IMAGE := $(shell docker image ls | findstr $(NAME)_img > nul 2>&1 && echo %errorlevel%)
+	DOCKER_NIX_BUILD_CMD := cd .. & docker build . -f $(NAME)\\dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
 else
 	CLEAN_CMD := clean_linux
 	BUILD_CMD := build_linux
 	REBUILD_CMD := rebuild_linux
-	CONTAINER_EXISTS := $(shell docker ps -a | grep $(NAME) 2>&1 > /dev/null ; echo $$?)
-	IMAGE_EXISTS := $(shell docker image ls | grep $(NAME)_img 2>&1 > /dev/null ; echo $$?)
-	DOCKER_BUILD_CMD := cd .. ; docker build . -f ./$(NAME)/dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
+	EXISTS_NIX_CONTAINER := $(shell docker ps -a | grep $(NAME) 2>&1 > /dev/null ; echo $$?)
+	EXISTS_NIX_IMAGE := $(shell docker image ls | grep $(NAME)_img 2>&1 > /dev/null ; echo $$?)
+	DOCKER_NIX_BUILD_CMD := cd .. ; docker build . -f ./$(NAME)/dockerfile -t $(NAME)_img --build-arg NAME=$(NAME)
 endif
 
-ifeq ($(CONTAINER_EXISTS), 0)
-	DOCKER_LAUNCH := docker start --attach -i $(NAME)
+ifeq ($(EXISTS_NIX_CONTAINER), 0)
+	NIX_DOCKER_LAUNCH := docker start --attach -i $(NAME)
 else
-	DOCKER_LAUNCH := docker run -it --name $(NAME) $(NAME)_img
+	NIX_DOCKER_LAUNCH := docker run -it --name $(NAME) $(NAME)_img
 endif
 
-ifeq ($(IMAGE_EXISTS), 0)
-	DOCKER_BUILD := @echo "image already built"
+ifeq ($(EXISTS_NIX_IMAGE), 0)
+	NIX_DOCKER_BUILD := @echo "image already built"
 else
-	DOCKER_BUILD := $(DOCKER_BUILD_CMD)
+	NIX_DOCKER_BUILD := $(DOCKER_NIX_BUILD_CMD)
 endif
 
 install_linux:
@@ -47,16 +47,16 @@ install_linux:
 	apt-get install gcc-arm-linux-gnueabi g++-arm-linux-gnueabi binutils-arm-linux-gnueabi
 
 build_windows_x86:
-	@if not exist $(OUTDIR_WIN) mkdir $(OUTDIR_WIN)
-	$(CL) .\\$(SERVER).cpp $(INCLUDE_WIN) /Fe${OUTDIR_WIN}\\$(SERVER)_x86_pe.exe /Fo${OUTDIR_WIN}\\$(SERVER).obj
-	$(CL) .\\$(CLIENT).cpp $(INCLUDE_WIN) /Fe${OUTDIR_WIN}\\$(CLIENT)_x86_pe.exe /Fo${OUTDIR_WIN}\\$(CLIENT).obj
-	$(CL) $(CL_DBG_ARGS) .\\$(SERVER).cpp $(INCLUDE_WIN) /Fe${OUTDIR_WIN}\\$(SERVER)_x86_pe_debug.exe /Fo${OUTDIR_WIN}\\$(SERVER).obj
-	$(CL) $(CL_DBG_ARGS) .\\$(CLIENT).cpp $(INCLUDE_WIN) /Fe${OUTDIR_WIN}\\$(CLIENT)_x86_pe_debug.exe /Fo${OUTDIR_WIN}\\$(CLIENT).obj
-	@if exist *.idb move *.idb $(OUTDIR_WIN)
-	@if exist *.pdb move *.pdb $(OUTDIR_WIN)
+	@if not exist $(OUTDIR_WIN_ESCAPED) mkdir $(OUTDIR_WIN_ESCAPED)
+	$(CL) .\\$(SERVER).cpp $(INCLUDE_WIN_ESCAPED) /Fe${OUTDIR_WIN_ESCAPED}\\$(SERVER)_x86_pe.exe /Fo${OUTDIR_WIN_ESCAPED}\\$(SERVER).obj
+	$(CL) .\\$(CLIENT).cpp $(INCLUDE_WIN_ESCAPED) /Fe${OUTDIR_WIN_ESCAPED}\\$(CLIENT)_x86_pe.exe /Fo${OUTDIR_WIN_ESCAPED}\\$(CLIENT).obj
+	$(CL) $(CL_DBG_ARGS) .\\$(SERVER).cpp $(INCLUDE_WIN_ESCAPED) /Fe${OUTDIR_WIN_ESCAPED}\\$(SERVER)_x86_pe_debug.exe /Fo${OUTDIR_WIN_ESCAPED}\\$(SERVER).obj
+	$(CL) $(CL_DBG_ARGS) .\\$(CLIENT).cpp $(INCLUDE_WIN_ESCAPED) /Fe${OUTDIR_WIN_ESCAPED}\\$(CLIENT)_x86_pe_debug.exe /Fo${OUTDIR_WIN_ESCAPED}\\$(CLIENT).obj
+	@if exist *.idb move *.idb $(OUTDIR_WIN_ESCAPED)
+	@if exist *.pdb move *.pdb $(OUTDIR_WIN_ESCAPED)
 clean_windows_x86:
-	if exist ${OUTDIR_WIN}\\$(SERVER)_x86_pe* del ${OUTDIR_WIN}\\$(SERVER)_x86_pe*
-	if exist ${OUTDIR_WIN}\\$(CLIENT)_x86_pe* del ${OUTDIR_WIN}\\$(CLIENT)_x86_pe*
+	if exist ${OUTDIR_WIN_ESCAPED}\\$(SERVER)_x86_pe* del ${OUTDIR_WIN_ESCAPED}\\$(SERVER)_x86_pe*
+	if exist ${OUTDIR_WIN_ESCAPED}\\$(CLIENT)_x86_pe* del ${OUTDIR_WIN_ESCAPED}\\$(CLIENT)_x86_pe*
 rebuild_windows_x86: clean_windows_x86 build_windows_x86
 
 build_windows: build_windows_x86
@@ -105,10 +105,10 @@ rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
 build_in_docker_windows:
 	@:
 
-build_docker:
-	$(DOCKER_BUILD)
-run_docker: build_docker
-	$(DOCKER_LAUNCH)
+build_linux_docker:
+	$(NIX_DOCKER_BUILD)
+run_linux_docker: build_linux_docker
+	$(NIX_DOCKER_LAUNCH)
 
 build_linux: build_linux_x86 build_linux_arm build_linux_ppc
 clean_linux: clean_linux_x86 clean_linux_arm clean_linux_ppc

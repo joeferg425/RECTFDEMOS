@@ -8,7 +8,9 @@ SHELL ["cmd", "/S", "/C"]
 
 ENV VSCMD_DEBUG 1
 
-ADD DevPrompt.bat C:\\DevPrompt.bat
+RUN mkdir C:\\RECTFDEMOS
+
+ADD DevPrompt.bat C:\\RECTFDEMOS\\DevPrompt.bat
 
 ADD https://aka.ms/vs/15/release/vs_professional.exe C:\\TEMP\\vs_professional.exe
 
@@ -57,8 +59,9 @@ RUN setx /m PATH "%PATH%;C:\Bin" `
 # Start developer command prompt with any other commands specified.
 #ENTRYPOINT ["cmd", "/k", "DevPrompt.lnk", "&&", "powershell.exe"]
 
-ENTRYPOINT ["cmd", "/k", "DevPrompt.bat", "&&", "powershell.exe"]
+ENTRYPOINT ["cmd", "/k", "C:\\RECTFDEMOS\\DevPrompt.bat", "&&", "powershell.exe"]
+
+WORKDIR C:\RECTFDEMOS
 
 # Default to PowerShell if no other command specified.
-#CMD ["powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
-#CMD ["cmd", "/k", "DevPrompt.bat", "&&", "powershell.exe"]
+CMD ["powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
