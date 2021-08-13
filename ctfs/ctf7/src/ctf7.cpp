@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     char input[BUFSIZE] = {0};
     char hash[BUFSIZE] = {0};
 
-    printf("Please enter CTF%d password: ", CTFNUM);
+    printf("Please enter CTF%d password:  >>", CTFNUM);
     int c = '\0', charcount = 0;
     while (((c = getchar()) != EOF) && (c != '\n') && (charcount < (BUFSIZE - 1)))
     {

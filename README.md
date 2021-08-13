@@ -22,6 +22,8 @@ Reverse Engineering Capture The Flag DEMOS
     `$ & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon .`
   - `docker run --name buildtools2019 -it --mount 'type=bind,source=C:\workspace\RECTFDEMOS,target=C:\RECTFDEMOS' buildtools2019`
 
+  - takes about 15 minutes to build image
+
 - Build Linux Binaries
   - Install Docker
     `$ apt-get install docker`

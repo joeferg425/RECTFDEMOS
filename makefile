@@ -8,6 +8,7 @@ install:
 	$(MAKE) -C ./ctfs/ctf4 $@
 	$(MAKE) -C ./ctfs/ctf5 $@
 	$(MAKE) -C ./ctfs/ctf6 $@
+	$(MAKE) -C ./ctfs/ctf7 $@
 	$(MAKE) -C ./helpers/char2int $@
 	$(MAKE) -C ./helpers/char2int_scaled $@
 	$(MAKE) -C ./helpers/char2byte_offset $@

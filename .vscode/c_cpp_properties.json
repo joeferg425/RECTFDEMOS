@@ -19,7 +19,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/helpers"
             ],
             "defines": [],
             "cStandard": "c17",

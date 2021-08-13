@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     const char *password = "Super$ecretPW1";
 
     // prompt user for input
-    printf("Please enter CTF%d password: ", CTFNUM);
+    printf("Please enter CTF%d password:  >> ", CTFNUM);
 
     // read input from user
     while (((c = getchar()) != EOF) && (counter < (BUFSIZE - 1)))

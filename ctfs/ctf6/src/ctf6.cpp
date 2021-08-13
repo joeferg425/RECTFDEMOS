@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 #endif
 
     // prompt for input
-    sprintf(prompt, "Please enter CTF%d password: ", CTFNUM);
+    sprintf(prompt, "Please enter CTF%d password:  >>", CTFNUM);
     printf("%s\n", prompt);
     if (argc < 2)
     {

@@ -14,7 +14,7 @@ int main(int argc, char **argv)
     int buffer_c_len_i = 0;
     int buffer_ob_len_i = 0;
 
-    printf("charXOR\n");
+    printf("char2byte_xor\n");
     buffer_c_len_i = get_input(argc, argv, "Enter a string", buffer_c, BUFSIZE);
 
     printf("Input : ");
