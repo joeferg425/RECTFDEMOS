@@ -4,12 +4,12 @@
 
 - [Index](../../README.md)
   - [Capture the Flag #1](#capture-the-flag-1)
-  - [Goals](#goals)
-  - [Required Tools](#required-tools)
-  - [Description](#description)
-  - [Solution](#solution)
-    - [Manually search strings in binary](#manually-search-strings-in-binary)
-    - [Explore in Ghidra](#explore-in-ghidra)
+    - [Goals](#goals)
+    - [Required Tools](#required-tools)
+    - [Description](#description)
+    - [Solution](#solution)
+      - [Manually search strings in binary](#manually-search-strings-in-binary)
+      - [Explore in Ghidra](#explore-in-ghidra)
 
 ## Goals ##
 
@@ -20,7 +20,6 @@
 
 ## Required Tools ##
 
-- [Visual Studio Code](https://code.visualstudio.com/download)
 - [Ghidra Reverse Engineering Software](https://ghidra-sre.org/)
 - Windows
   - [Mingw](http://mingw-w64.org/)
@@ -34,7 +33,8 @@
 
 ## Building the Binary ##
 
-To build the binary you will need either linux build tools or windows build tools
+- Linux
+To [build the binary](../../README.md#Building-The-CTF-Binaries) you will need either [linux](../../README.md#Compiling-in-Linux) build tools or [windows](../../README.md#Compiling-in-Windows) build tools, or [docker](../../README.md#Compiling-in-Docker).
 
 ## Description ##
 
