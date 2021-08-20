@@ -1,10 +1,6 @@
 /*
 int password
 Clear-text flag
-
-pass: Fo0B4r
-flag: down with gravity
-
 */
 
 #include <stdio.h>
@@ -82,3 +78,8 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+/*
+pass: Fo0B4r
+flag: down with gravity
+*/

@@ -1,44 +1,51 @@
-# Capture the Flag #1 #
+# CTF1 #
+
+## Capture the Flag #1 ##
+
+Exploring your first binary.
+
+---
 
 ## Table of Contents ##
 
-- [Index](../../README.md)
-  - [Capture the Flag #1](#capture-the-flag-1)
-    - [Goals](#goals)
-    - [Required Tools](#required-tools)
-    - [Description](#description)
-    - [Solution](#solution)
-      - [Manually search strings in binary](#manually-search-strings-in-binary)
-      - [Explore in Ghidra](#explore-in-ghidra)
+[MAIN README](../../README.md)
+
+[CTF#1](#ctf1)
+
+- [Goals](#goals)
+- [Required Tools](#required-tools)
+- [Building the Binary](#building-the-binary)
+- [Description](#description)
+- [Walkthrough](#walkthrough)
+  - [Manually search strings in binary](#manually-search-strings-in-binary)
+  - [Explore in Ghidra](#explore-in-ghidra)
+
+---
 
 ## Goals ##
 
 - Capture the flag
-- Familiarization with binary inspection tools
+- Introduction to hexdump / HxD
 - Introduction to assembly instructions
 - Introduction to Ghidra
 
+---
+
 ## Required Tools ##
 
-- [Ghidra Reverse Engineering Software](https://ghidra-sre.org/)
-- Windows
-  - [Mingw](http://mingw-w64.org/)
-  - [Mingw make](http://gnuwin32.sourceforge.net/packages/make.htm)
-  - [Microsoft Visual Studio Developer tools](https://visualstudio.microsoft.com/vs/community/)
-  - [HxD hex editor](https://mh-nexus.de/en/hxd/)
-- Linux
-  - build-essential gcc-powerpc-linux-gnu g++-powerpc-linux-gnu binutils-powerpc-linux-gnu gcc-arm-linux-gnueabi g++-arm-linux-gnueabi binutils-arm-linux-gnueabi
-  - [strings](https://linux.die.net/man/1/strings)
-  - [hexdump](https://linux.die.net/man/1/hexdump)
+See [Required Tools](../../README.md#Required-Tools) section in the main README.
+
+---
 
 ## Building the Binary ##
 
-- Linux
-To [build the binary](../../README.md#Building-The-CTF-Binaries) you will need either [linux](../../README.md#Compiling-in-Linux) build tools or [windows](../../README.md#Compiling-in-Windows) build tools, or [docker](../../README.md#Compiling-in-Docker).
+See [Compiling The CTF Binaries](../../README.md#Compiling-The-CTF-Binaries) section in the main README.
+
+---
 
 ## Description ##
 
-This exercise uses a binary built from the CTF1 source.
+This exercise uses a binary built from the CTF1 source found in `./RECTFDEMOS/ctfs/ctf1/src`. Do not look at the source code unless you get stuck. If you have already built a binary from source, then it should be located in `./RECTFDEMOS/ctfs/ctf1/bin`. In windows, run `ctf1_x86_pe.exe`, on a linux system run `ctf1_x86_elf`.
 
 When you run the CTF1 binary, you will see the following prompt:
 
@@ -58,45 +65,51 @@ The source is provided for those who are curious to try re-compilation of the so
 
 Instead of going to the source, the challenge for the beginner binary hacker is to use the walkthrough below to guide you through the process of capturing the flag using some of the most basic binary reverse engineering tools.
 
-## Solution ##
+---
 
-There are two proposed solutions to this exercise. It is good to be familiar with both, but the Ghidra method will be the most useful for all but the most basic string searches. I suggest you try both.
+## Walkthrough ##
 
-- Propsed Solutions
+There are two proposed solutions to this exercise. It is good to be familiar with both, but the Ghidra method is the most useful for all but the most basic string searches. I suggest you try both since the manual method is also useful for things besides binary reverse engineering.
 
-    1. [Manually Search the strings](#Manually-search-strings-in-binary) compiled into the binary manually using a tool like [strings](https://linux.die.net/man/1/strings), [hexdump](https://linux.die.net/man/1/hexdump), or [HxD](https://mh-nexus.de/en/hxd/) until you find a likely candidate and then copy it into the ctf1 prompt.
+- Proposed Solutions:
 
-    2. [Using a reverse engineering tool](#Explore-in-Ghidra) such as [Ghidra](https://ghidra-sre.org/), search the strings compiled into the binary and determine which text string is the right one by finding where it is compared against the user input.
+    1. [Manually Search](#Manually-search-strings-in-binary)
+
+        Manually Search the strings compiled into the binary manually using a tool like [strings](https://linux.die.net/man/1/strings), [hexdump](https://linux.die.net/man/1/hexdump), or [HxD](https://mh-nexus.de/en/hxd/) until you find a likely password string and then copy it into the ctf1 password prompt.
+
+    2. [Use a reverse engineering tool](#Explore-in-Ghidra)
+
+        Using a reverse engineering tool such as [Ghidra](https://ghidra-sre.org/), search the strings compiled into the binary and determine which text string is the right one by finding where it is compared against the user input.
 
 ### Manually search strings in binary ###
 
-1. The compiled binary: "`ctf1_x86_elf`"
+1. Manually search the binary
 
     - Windows walkthrough
 
-        - Open file in HxD
+        - Open "`ctf1_x86_elf`" in HxD
 
-            ![header](readme_files/x86_elf_hxd_header.png)
+            ![hxd header](readme_files/x86_elf_hxd_header.png)
 
         - Find `.ELF` starting at offset `0x0`. This four-byte sequence implies that the binary is compiled as a [Linux executable](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) and it will have the [ELF header](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format#File_header) which can be manually decoded to find out lots of interesting information. Reverse engineering software will typically decode these well-known headers for you.
 
         - Locate several strings near offset `0x2000` that do not look like library names or other OS keywords.
 
-            ![strings](readme_files/x86_elf_hxd_strings.png)
+            ![hxd strings](readme_files/x86_elf_hxd_strings.png)
 
-            Each string of text is separated by a dot. A single possible password can wrap around from the end of one line onto the next as seen with the string `ImAP4$$word` in the image above. Double clicking a string will select it in HxD so that the string can be easily copied and pasted into the prompt when running the binary.
+            Each string of text is separated by a dot. A single possible password can wrap around from the end of one line onto the next as seen with the string "`ImAP4$$word`" in the image above. Double clicking a string will select it in HxD so that the string can be easily copied and pasted into the prompt when running the CTF1 binary.
 
     - Linux walkthrough
 
-        - hexdump the binary
+        - [hexdump](https://man7.org/linux/man-pages/man1/hexdump.1.html) the binary. Search for "ELF" string using [grep](https://man7.org/linux/man-pages/man1/grep.1.html).
 
             `$ hexdump ctfs/ctf1/bin/ctf1_x86_elf -C | grep ELF`
 
-            ![header](readme_files/x86_elf_hexdump.png)
+            ![hexdump header](readme_files/x86_elf_hexdump.png)
 
-        - Find `.ELF` starting at offset `0x0`. This four-byte sequence implies that the binary is compiled as a [Linux executable](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) and it will have the [ELF header](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format#File_header) which can be manually decoded to find out lots of interesting information. Reverse engineering software will typically decode these well-known headers for you.
+        - Find `.ELF` starting at offset `0x0`. This four-byte sequence implies that the binary is compiled as a [Linux executable](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format) and it will have the [ELF header](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format#File_header) which can be manually decoded to find out lots of interesting information. Reverse engineering software will typically decode these well-known headers for you when you open a binary with them.
 
-        - Find strings near offset `0x2000` by scrolling or using [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) with something like [grep](https://man7.org/linux/man-pages/man1/grep.1.html).
+        - Find strings near offset `0x2000` by scrolling with [more](https://man7.org/linux/man-pages/man1/more.1.html) or using [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) with something like [grep](https://man7.org/linux/man-pages/man1/grep.1.html).
 
             `$ hexdump ctfs/ctf1/bin/ctf1_x86_elf -C -s 0x2000 | more`
 
@@ -104,11 +117,11 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
             Each string of text is separated by a dot. A single possible password can wrap around from the end of one line onto the next as seen with the string `ImAP4$$word` in the image above.
 
-2. For the compiled binary "`ctf1_x86_pe.exe`"
+2. Manually search the binary
 
     - Windows Walkthrough
 
-        - Open file in HxD
+        - Open "`ctf1_x86_pe.exe`" in HxD
 
             ![header](readme_files/x86_pe_hxd_header.png)
 
@@ -116,10 +129,13 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
         - Find strings near offset `0x2000` by scrolling until you find text that does not look like library names or other OS keywords.
 
-        Each string of text is separated by a dot. A single possible password can wrap around from the end of one line onto the next as seen with the string `ImAP4$$word` in the image above. Double clicking a string will select it in HxD so that the string can be easily copied and pasted.
+            ![strings](readme_files/x86_pe_hxd_strings.png)
+
+            Each string of text is separated by a dot. A single possible password can wrap around from the end of one line onto the next as seen with the string `ImAP4$$word` in the image above. Double clicking a string will select it in HxD so that the string can be easily copied and pasted.
 
     - Linux Walkthrough
-        - hexdump the binary
+
+        - [hexdump](https://man7.org/linux/man-pages/man1/hexdump.1.html) the binary. Search for "MZ" string using [grep](https://man7.org/linux/man-pages/man1/grep.1.html).
 
             `$ hexdump ctfs/ctf1/bin/ctf1_x86_pe.exe -C | grep MZ`
 
@@ -127,13 +143,13 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
         - Find `MZ` at offset `0x0`. This two-byte sequence implies that the binary is compiled as a [windows executable](https://en.wikipedia.org/wiki/Portable_Executable) and it will have the [DOS header](https://en.wikipedia.org/wiki/DOS_MZ_executable) which can be manually decoded to find out lots of interesting information. Reverse engineering software will typically decode these well-known headers for you.
 
-        - Locate strings near offset `0x11B60` by scrolling or using [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) with something like [grep](https://man7.org/linux/man-pages/man1/grep.1.html).
+        - Locate strings near offset `0x11B60` by scrolling with [more](https://man7.org/linux/man-pages/man1/more.1.html) or using [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) with something like [grep](https://man7.org/linux/man-pages/man1/grep.1.html).
 
             `$ hexdump ctfs/ctf1/bin/ctf1_x86_pe.exe -C -s 0x11B60 | more`
 
             ![strings](readme_files/x86_pe_strings.png)
 
-        Each string of text is separated by a dot. A single possible password can wrap around from the end of one line onto the next as seen with the string `ImAP4$$word` in the image above.
+            Each string of text is separated by a dot. A single possible password can wrap around from the end of one line onto the next as seen with the string `ImAP4$$word` in the image above.
 
 ### Explore in Ghidra ###
 
@@ -149,7 +165,7 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
             Either method will work
 
-        ----
+        ---
 
         1. ***Use the offset***
 

@@ -1,6 +1,6 @@
 # RECTFDEMOS #
 
-**(R)everse (E)ngineering (C)apture (T)he (F)lag (DEMOS)**
+## (R)everse (E)ngineering (C)apture (T)he (F)lag (DEMOS) ##
 
 ---
 
@@ -19,6 +19,7 @@
 ---
 
 ## Preface ##
+
 My goal when creating this originally was to make some simplistic Binary Reverse Engineering demos to teach in a class at the University I was attending. At the time, I was using [hex-rays IDA](https://hex-rays.com/ida-pro/) products exclusively. The class session went well and was well-received.
 
 A few years later I put the code on github, but not the tutorial writeups since they were done for a specific set of students and were not adequate for a wider audience. Since then I have tried to create new tutorial documentation with better screenshots and walk-through steps. Additionally, I have switched to the [NSA's Ghidra](https://ghidra-sre.org/) because of its significantly better price, the much better support, and the impressive development cycle.
@@ -43,7 +44,7 @@ The following links will take you to the capture the flag exercises.
 6. [CTF6](ctfs/ctf6/CTF6_README.md)
 7. [CTF7](ctfs/ctf7/CTF7_README.md)
 
-## Building The CTF Binaries ##
+## Compiling The CTF Binaries ##
 
 If you want to run the capture the flag exercises, you will need to build them since I decided against checking the binaries into source control. Multiple methods have been prepared for you to make this process as easy as possible.
 
@@ -96,11 +97,11 @@ If you aren't determined to use the windows binaries, I recommend skipping the w
 
 #### Docker-Compile Windows Binaries ####
 
-  ---
+---
 
-  - **Requires Windows 10 Pro**
+- **Requires Windows 10 Pro**
 
-  ---
+---
 
 - Install [Docker](https://docs.docker.com/)
 
@@ -142,3 +143,16 @@ If you aren't determined to use the windows binaries, I recommend skipping the w
 1. Open this repository / folder in a terminal
 1. Run `make install_linux`
 1. You should now be able to build the *nix binaries by running `make build`
+
+### Required Tools ###
+
+- [Ghidra Reverse Engineering Software](https://ghidra-sre.org/)
+- Windows
+  - [Mingw](http://mingw-w64.org/)
+  - [Mingw make](http://gnuwin32.sourceforge.net/packages/make.htm)
+  - [Microsoft Visual Studio Developer tools](https://visualstudio.microsoft.com/vs/community/)
+  - [HxD hex editor](https://mh-nexus.de/en/hxd/)
+- Linux
+  - build-essential gcc-powerpc-linux-gnu g++-powerpc-linux-gnu binutils-powerpc-linux-gnu gcc-arm-linux-gnueabi g++-arm-linux-gnueabi binutils-arm-linux-gnueabi
+  - [strings](https://linux.die.net/man/1/strings)
+  - [hexdump](https://linux.die.net/man/1/hexdump)

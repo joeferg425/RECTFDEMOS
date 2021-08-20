@@ -1,10 +1,6 @@
 /*
 Clear-text password
 Clear-text flag
-
-pass: Super$ecretPW1
-flag: corn is gross
-
 */
 
 #include <stdio.h>
@@ -94,3 +90,8 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+/*
+pass: Super$ecretPW1
+flag: corn is gross
+*/
