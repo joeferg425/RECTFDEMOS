@@ -22,7 +22,7 @@
 
 My goal when creating this originally was to make some simplistic Binary Reverse Engineering demos to teach in a class at the University I was attending. At the time, I was using [hex-rays IDA](https://hex-rays.com/ida-pro/) products exclusively. The class session went well and was well-received.
 
-A few years later I put the code on github, but not the tutorial writeups since they were done for a specific set of students and were not adequate for a wider audience. Since then I have tried to create new tutorial documentation with better screenshots and walk-through steps. Additionally, I have switched to the [NSA's Ghidra](https://ghidra-sre.org/) because of its significantly better price, the much better support, and the impressive development cycle.
+A few years later I put the code on GitHub, but not the tutorial writeups since they were done for a specific set of students and were not adequate for a wider audience. Since then I have tried to create new tutorial documentation with better screenshots and walk-through steps. Additionally, I have switched to the [NSA's Ghidra](https://ghidra-sre.org/) because of its significantly better price, the much better support, and the impressive development cycle.
 
 My goal with the specific content that I have created is to fill a gap I ran into when I was getting started. Many guides are available for 'advanced malware analysis' or 'writing scripts to auto-detect library/function X' or many more advanced topics, but what I have not seen done well is the simple introduction to binary reverse engineering with real code, real binaries, and a complete walkthrough. I hope you find this set of exercises useful.
 
@@ -48,13 +48,13 @@ The following links will take you to the capture the flag exercises.
 
 If you want to run the capture the flag exercises, you will need to build them since I decided against checking the binaries into source control. Multiple methods have been prepared for you to make this process as easy as possible.
 
-The easiest and safest method is to use docker to build and run the linux binaries. Installation is usually straightforward, and the dockerfiles, makefiles, and source code have been provided for you in this repository.
+The easiest and safest method is to use docker to build and run the Linux binaries. Installation is usually straightforward, and the dockerfiles, makefiles, and source code have been provided for you in this repository.
 
 If you already have a c/c++ build environment set up, then feel free to compile everything yourself using whatever compiler you want and just follow along with the tutorials as well as possible. The instructions should still be valid, just the memory addresses and offsets will all change.
 
 ### Compiling in Docker ###
 
-I recommend building the binaries in a linux-based docker container, or building natively in linux or the Windows Subsystem for Linux (WSL). The docker image provides some protection of your system from exercises like this, and is a good tool to become comfortable with.
+I recommend building the binaries in a Linux-based docker container, or building natively in Linux or the Windows Subsystem for Linux (WSL). The docker image provides some protection of your system from exercises like this, and is a good tool to become comfortable with.
 
 If you aren't determined to use the windows binaries, I recommend skipping the windows docker image altogether. It is a large docker image and since you have to use the Microsoft Visual Studio installers to prep it, it takes at least fifteen minutes just to build it typically.
 
@@ -107,7 +107,7 @@ If you aren't determined to use the windows binaries, I recommend skipping the w
 
 - Switch to Windows containers
 
-  Run the following in powershell
+  Run the following in PowerShell
 
   `$ & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon .`
 

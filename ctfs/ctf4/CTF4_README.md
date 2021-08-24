@@ -1,6 +1,28 @@
-# Capture the Flag #4 #
+# CTF#4 #
 
-[Index](../../README.md)
+## Capture the Flag #4 ##
+
+Your first attempt at reverse engineering logic.
+
+---
+
+## Table of Contents ##
+
+[MAIN README](../../README.md)
+
+[CTF#4](#ctf\#4)
+
+- [Goals](#goals)
+- [Required Tools](#required-tools)
+- [Building the Binary](#building-the-binary)
+- [Description](#description)
+- [Obfuscation](#obfuscation)
+- [Walkthrough](#walkthrough)
+  - [Identify Binary Header](#identify-binary-header)
+  - [Find Flag](#find-flag)
+  - [Find Password](#find-password)
+
+---
 
 ## Goals ##
 
@@ -12,6 +34,14 @@
 - [strings](https://linux.die.net/man/1/strings) / [hexdump](https://linux.die.net/man/1/hexdump) (linux)
 - [HxD hex editor](https://mh-nexus.de/en/hxd/) (windows)
 - [Ghidra Reverse Engineering Software](https://ghidra-sre.org/)
+
+---
+
+## Building the Binary ##
+
+See [Compiling The CTF Binaries](../../README.md#Compiling-The-CTF-Binaries) section in the main README.
+
+---
 
 ## Description ##
 
@@ -37,9 +67,15 @@ The source is provided for those who are curious to try re-compilation of the so
 
 Instead of going to the source, the challenge for the beginner binary hacker is to use the walkthrough below to guide you through the process of capturing the flag using some of the most basic binary reverse engineering tools.
 
-**Obfuscation** in this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as C's char [data type](https://en.wikipedia.org/wiki/C_data_types), and then a simple, reversible mathematical function was applied to the 8-bit char values.
+---
 
-## Solution ##
+## Obfuscation ##
+
+Obfuscation for this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as C's char [data type](https://en.wikipedia.org/wiki/C_data_types), and then a simple and reversible mathematical function was applied to the 8-bit char values.
+
+---
+
+## Walkthrough ##
 
 This solution is specific to the binary named "`ctf4_arm_elf_debug`".
 
@@ -134,7 +170,7 @@ The four-byte sequence `.ELF` at the beginning of the binary means that the bina
 
     This local variable is better traced in assembly. See on the left where the [ldmia](https://developer.arm.com/search#q=ldmia) opcode is used to load multiple words from an address in the binary named `DAT_00010ca0`.
 
-    - Navigate to `DAT_00010ca0` either by clicking it, or pressing the `goto` command shortcut `g` and typing in the address `00010ca0`.
+    Navigate to `DAT_00010ca0` either by clicking it, or pressing the `goto` command shortcut `g` and typing in the address `00010ca0`.
 
     ![flag bytes](readme_files/ctf4_flag_byte_string.png)
 

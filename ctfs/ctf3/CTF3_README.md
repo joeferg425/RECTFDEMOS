@@ -1,17 +1,46 @@
-# Capture the Flag #3 #
+# CTF#3 #
 
-[Index](../../README.md)
+## Capture the Flag #3 ##
+
+A different path to victory.
+
+---
+
+## Table of Contents ##
+
+[MAIN README](../../README.md)
+
+[CTF#3](#ctf\#3)
+
+- [Goals](#goals)
+- [Required Tools](#required-tools)
+- [Building the Binary](#building-the-binary)
+- [Description](#description)
+- [Obfuscation](#obfuscation)
+- [Walkthrough](#walkthrough)
+  - [Search strings in binary "`ctf3_ppc_elf`"](#search-strings-in-binary-ctf3_ppc_elf)
+  - [Use Ghidra](#use-ghidra)
+
+---
 
 ## Goals ##
 
 - Familiarization with binary inspection tools
 - Introduce slightly more complex obfuscation reversal
 
+---
+
 ## Required Tools ##
 
-- [strings](https://linux.die.net/man/1/strings) / [hexdump](https://linux.die.net/man/1/hexdump) (linux)
-- [HxD hex editor](https://mh-nexus.de/en/hxd/) (windows)
-- [Ghidra Reverse Engineering Software](https://ghidra-sre.org/)
+See [Required Tools](../../README.md#Required-Tools) section in the main README.
+
+---
+
+## Building the Binary ##
+
+See [Compiling The CTF Binaries](../../README.md#Compiling-The-CTF-Binaries) section in the main README.
+
+---
 
 ## Description ##
 
@@ -33,53 +62,60 @@ The source is provided for those who are curious to try re-compilation of the so
 
 Instead of going to the source, the challenge for the beginner binary hacker is to use the walkthrough below to guide you through the process of capturing the flag using some of the most basic binary reverse engineering tools.
 
-**Obfuscation** in this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as [integer data](https://en.wikipedia.org/wiki/C_data_types) and scaling the integers.
+---
 
-## Solution ##
+## Obfuscation ##
 
-1. Search strings in binary "`ctf3_ppc_elf`"
-    - Print hexadecimal value of binary with addresses and ASCII values
+Obfuscation for this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as [integer data](https://en.wikipedia.org/wiki/C_data_types) and scaling the integers.
 
-        `$ hexdump -C bin/ctf3_ppc_elf | more`
+---
 
-        Notice `.ELF` at address `0x0`
+## Walkthrough ##
 
-    - Print strings with their hexadecimal offsets
+### Search strings in binary "`ctf3_ppc_elf`" ###
 
-        `$ strings -t x bin/ctf3_ppc_elf`
+- Print hexadecimal value of binary with addresses and ASCII values
 
-        Interesting strings near `0xF9C`
+    `$ hexdump -C bin/ctf3_ppc_elf | more`
 
-2. Use Ghidra
+    Notice `.ELF` at address `0x0`
 
-    - Import "`ctf3_ppc_elf`" into Ghidra
+- Print strings with their hexadecimal offsets
 
-    - Open the strings Window
+    `$ strings -t x bin/ctf3_ppc_elf`
 
-        ![ghidra strings window](readme_files/ghidra_strings.png)
+    Interesting strings near `0xF9C`
 
-    - Look for strings you saw when using the software like "please enter the password".
+### Use Ghidra ###
 
-        ![ghidra strings](readme_files/ghidra_suspicious_strings.png)
+- Import "`ctf3_ppc_elf`" into Ghidra
 
-    - Click on a string to go to the memory address where it is defined. Double click on the XREF function to the right of the defined string to go to the function where the string is used.
+- Open the strings Window
 
-        ![find the function](readme_files/ghidra_find_function.png)
+    ![ghidra strings window](readme_files/ghidra_strings.png)
 
-    - When the user submits a password, it is stored in `local_414`. We can tell this because that is compared and then later printed back to the user as seen in the decompilation from Ghidra below. This means `local_614` must have the real password in it, and `local_e18` must be the flag.
+- Look for strings you saw when using the software like "please enter the password".
 
-        ![password logic](readme_files/ghidra_password_logic.png)
+    ![ghidra strings](readme_files/ghidra_suspicious_strings.png)
 
-    - If we try to determine the password, we can trace `local_614` upwards. We find that it is assigned using a function call, and investigation of the function call could be done to determine how the password data is being manipulated.
+- Click on a string to go to the memory address where it is defined. Double click on the XREF function to the right of the defined string to go to the function where the string is used.
 
-        ![password assignment](readme_files/ghidra_password_assignment.png)
+    ![find the function](readme_files/ghidra_find_function.png)
 
-    - We can also trace `local_e14` to where it is first assigned, since that is the variable that is manipulated and then assigned to `local_614`, our password. But is is not immediately obvious how to convert this password into readable text.
+- When the user submits a password, it is stored in `local_414`. We can tell this because that is compared and then later printed back to the user as seen in the decompilation from Ghidra below. This means `local_614` must have the real password in it, and `local_e18` must be the flag.
 
-        ![password bytes](readme_files/ghidra_password_bytes.png)
+    ![password logic](readme_files/ghidra_password_logic.png)
 
-    - Go back to where the password and flag are to trace the flag logic instead.
+- If we try to determine the password, we can trace `local_614` upwards. We find that it is assigned using a function call, and investigation of the function call could be done to determine how the password data is being manipulated.
 
-        ![flag variable](readme_files/ghidra_flag_variable.png)
+    ![password assignment](readme_files/ghidra_password_assignment.png)
 
-    - Trace `local_e18` to its assignment. This is clearly the flag.
+- We can also trace `local_e14` to where it is first assigned, since that is the variable that is manipulated and then assigned to `local_614`, our password. But is is not immediately obvious how to convert this password into readable text.
+
+    ![password bytes](readme_files/ghidra_password_bytes.png)
+
+- Go back to where the password and flag are to trace the flag logic instead.
+
+    ![flag variable](readme_files/ghidra_flag_variable.png)
+
+- Trace `local_e18` to its assignment. This is clearly the flag.
