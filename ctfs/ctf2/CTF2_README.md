@@ -18,8 +18,8 @@ Your first obfuscated password
 - [Description](#description)
 - [Obfuscation](#obfuscation)
 - [Walkthrough](#walkthrough)
-  - [Manually search strings in binary](#manually-search-strings-in-binary)
-  - [Explore in Ghidra](#explore-in-ghidra)
+    - [Manually search strings in binary](#manually-search-strings-in-binary)
+    - [Explore in Ghidra](#explore-in-ghidra)
 
 ---
 
@@ -109,7 +109,7 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
         Each string of text is separated by a dot. A single possible password can wrap around from the end of one line onto the next as seen with the string "`up with flags`" in the image above. Double clicking a string will select it in HxD so that the string can be easily copied and pasted into the prompt when running the CTF1 binary.
 
-    - Scroll through the visible strings and copy/paste each likely candidate into the ctf binary until you have found the correct password and the flag.
+    - Scroll through the visible strings and copy/paste each likely candidate into the CTF binary until you have found the correct password and the flag.
 
 2. Linux walkthrough
 
@@ -127,7 +127,7 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
         ![strings](readme_files/arm_elf_strings.png)
 
-    - Scroll through the visible strings and copy/paste each likely candidate into the ctf binary until you have found the correct password and the flag.
+    - Scroll through the visible strings and copy/paste each likely candidate into the CTF binary until you have found the correct password and the flag.
 
 #### Explore in Ghidra ####
 
@@ -137,9 +137,13 @@ There are two proposed solutions to this exercise. It is good to be familiar wit
 
     ![ghidra string](readme_files/arm_elf_ghidra_strings.gif)
 
-- Find a likely string in the list. Double click it to navigate to its memory location. Double click the function name in the xrefs to the right of the string definition (`FUN_000108fc`).
+- Find a likely string in the list. Double click it to navigate to its memory location. Then double click the function name in the xrefs to the right of the string definition (`FUN_000108fc`). This will take you to hexadecimal memory offset 0x108FC where the function is located within the binary.
 
     ![ghidra string click](readme_files/arm_elf_ghidra_strings_click.gif)
+
+    It is likely that the strings window is still in front of the decompile window at this point, click the decompile window to bring it into the foreground.
+
+    ![ghidra decompile window in background](readme_files/ghidra_hidden_decompile.png)
 
 - Note the two variables being compared in order to test whether the binary will print "Success" or "Sorry".
 

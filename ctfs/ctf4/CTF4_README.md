@@ -18,16 +18,16 @@ Your first attempt at reverse engineering logic.
 - [Description](#description)
 - [Obfuscation](#obfuscation)
 - [Walkthrough](#walkthrough)
-  - [Identify Binary Header](#identify-binary-header)
-  - [Find Flag](#find-flag)
-  - [Find Password](#find-password)
+    - [Identify Binary Header](#identify-binary-header)
+    - [Find Flag](#find-flag)
+    - [Find Password](#find-password)
 
 ---
 
 ## Goals ##
 
 - Familiarization with binary inspection tools
-- Easy win, clear-text password can be pulled from binary despite obfuscation
+- Practice tracing logic in Ghidra
 
 ## Required Tools ##
 
@@ -51,7 +51,7 @@ This exercise uses a binary built from the CTF4 source. When you run the CTF4 bi
 
 You can enter any string of text that you would like, followed by the `enter` key. If you get the password wrong, you will get a message like the following:
 
-![ctf4 wrong password](readme_files/ctf4_wrong_password.png)
+![ctf4 wrong password](readme_files/ctf4_wrong_password.gif)
 
 If you get the password correct, you will get a message like the following, but with legible text:
 
@@ -61,9 +61,7 @@ It is useful to note that you can also give the password to the binary as an arg
 
 ![ctf4 password argument](readme_files/ctf4_password_arg.png)
 
-The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though.
-
-The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output.
+The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though. The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output.
 
 Instead of going to the source, the challenge for the beginner binary hacker is to use the walkthrough below to guide you through the process of capturing the flag using some of the most basic binary reverse engineering tools.
 
@@ -180,7 +178,7 @@ The four-byte sequence `.ELF` at the beginning of the binary means that the bina
 
     ![flag bytes 2](readme_files/ctf4_flag_byte_string2.png)
 
-- Apply the [XOR](https://en.wikipedia.org/wiki/Exclusive_or) function to each byte of this sequence using the operand defined in `param_5`.
+- Apply the [XOR](https://en.wikipedia.org/wiki/Exclusive_or) function to each byte of this sequence using the operand defined in `param_5`. This can be done using your scripting language of choice, a calculator, or use an [online xor tool](https://xor.pw/)
 
     If you XOR'd correctly, you have the flag.
 

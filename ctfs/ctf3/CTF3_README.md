@@ -18,8 +18,8 @@ A different path to victory.
 - [Description](#description)
 - [Obfuscation](#obfuscation)
 - [Walkthrough](#walkthrough)
-  - [Search strings in binary "`ctf3_ppc_elf`"](#search-strings-in-binary-ctf3_ppc_elf)
-  - [Use Ghidra](#use-ghidra)
+    - [Search strings in binary "`ctf3_ppc_elf`"](#search-strings-in-binary-ctf3_ppc_elf)
+    - [Use Ghidra](#use-ghidra)
 
 ---
 
@@ -50,15 +50,17 @@ This exercise uses a binary built from the CTF3 source. When you run the CTF3 bi
 
 You can enter any string of text that you would like, followed by the `enter` key. If you get the password wrong, you will get a message like the following:
 
-![ctf3 wrong password](readme_files/ctf3_wrong_password.png)
+![ctf3 wrong password](readme_files/ctf3_wrong_password.gif)
+
+You can also provide passwords to the binary as arguments.
+
+![ctf3 wrong password argument](readme_files/ctf3_wrong_password_also.gif)
 
 If you get the password correct, you will get a message like the following, but with legible text:
 
 ![ctf3 correct password](readme_files/ctf3_correct_password.png)
 
-The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though.
-
-The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output.
+The goal of this exercise is to get the flag without knowing the password beforehand, and without having access to source. In this case you could just go directly to the source code, since it is provided. That would ruin the exercise though. The source is provided for those who are curious to try re-compilation of the source with various flags, compilers, and architectures and do comparisons of binaries and of Ghidra output.
 
 Instead of going to the source, the challenge for the beginner binary hacker is to use the walkthrough below to guide you through the process of capturing the flag using some of the most basic binary reverse engineering tools.
 
@@ -66,7 +68,7 @@ Instead of going to the source, the challenge for the beginner binary hacker is 
 
 ## Obfuscation ##
 
-Obfuscation for this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as [integer data](https://en.wikipedia.org/wiki/C_data_types) and scaling the integers.
+Obfuscation for this exercise was done by storing [ASCII](https://en.wikipedia.org/wiki/ASCII) data as [integer data](https://en.wikipedia.org/wiki/C_data_types) and then scaling the integers to hide the value during static analysis.
 
 ---
 
@@ -86,6 +88,8 @@ Obfuscation for this exercise was done by storing [ASCII](https://en.wikipedia.o
 
     Interesting strings near `0xF9C`
 
+- See [CTF#1](../ctf1/CTF1_README.md) & [CTF#2](../ctf2/CTF2_README.md) for screen captures showing string search steps.
+
 ### Use Ghidra ###
 
 - Import "`ctf3_ppc_elf`" into Ghidra
@@ -94,7 +98,9 @@ Obfuscation for this exercise was done by storing [ASCII](https://en.wikipedia.o
 
     ![ghidra strings window](readme_files/ghidra_strings.png)
 
-- Look for strings you saw when using the software like "please enter the password".
+- Look for strings you can see when using the software.
+
+    ![running the binary](readme_files/ctf3_wrong_password.png)
 
     ![ghidra strings](readme_files/ghidra_suspicious_strings.png)
 
@@ -102,7 +108,7 @@ Obfuscation for this exercise was done by storing [ASCII](https://en.wikipedia.o
 
     ![find the function](readme_files/ghidra_find_function.png)
 
-- When the user submits a password, it is stored in `local_414`. We can tell this because that is compared and then later printed back to the user as seen in the decompilation from Ghidra below. This means `local_614` must have the real password in it, and `local_e18` must be the flag.
+- When the user submits a password, it is stored in `local_414`. We can tell this because `local_414` is compared against `local_614` using [strcmp](https://www.cplusplus.com/reference/cstring/strcmp/) and then later printed back to the user as seen in the decompilation from Ghidra below. This means `local_614` must have the real password in it, and `local_e18` must be the flag.
 
     ![password logic](readme_files/ghidra_password_logic.png)
 

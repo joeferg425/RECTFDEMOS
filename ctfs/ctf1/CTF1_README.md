@@ -18,8 +18,8 @@ Exploring your first binary.
 - [Description](#description)
 - [Obfuscation](#obfuscation)
 - [Walkthrough](#walkthrough)
-  - [Manually search strings in binary](#manually-search-strings-in-binary)
-  - [Explore in Ghidra](#explore-in-ghidra)
+    - [Manually search strings in binary](#manually-search-strings-in-binary)
+    - [Explore in Ghidra](#explore-in-ghidra)
 
 ---
 
