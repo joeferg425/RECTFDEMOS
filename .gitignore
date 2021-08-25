@@ -44,3 +44,4 @@ bin/
 *.lock~
 RECTFDEMOS.rep/
 nul
+.markdownlint.json

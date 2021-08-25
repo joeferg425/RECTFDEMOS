@@ -178,7 +178,7 @@ The four-byte sequence `.ELF` at the beginning of the binary means that the bina
 
     ![flag bytes 2](readme_files/ctf4_flag_byte_string2.png)
 
-- Apply the [XOR](https://en.wikipedia.org/wiki/Exclusive_or) function to each byte of this sequence using the operand defined in `param_5`. This can be done using your scripting language of choice, a calculator, or use an [online xor tool](https://xor.pw/)
+- Apply the [XOR](https://en.wikipedia.org/wiki/Exclusive_or) function to each byte of this sequence using the operand defined in `param_5`. This can be done using your scripting language of choice, a calculator and an [ASCII table](https://www.asciitable.com/), or use an [online xor tool](https://xor.pw/)
 
     If you XOR'd correctly, you have the flag.
 
