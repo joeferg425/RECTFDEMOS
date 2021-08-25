@@ -16,6 +16,12 @@
 - [Description](#description)
 - [Obfuscation](#obfuscation)
 - [Walkthrough](#walkthrough)
+    - [Open `ctf6_x86_elf` using Ghidra](#open-ctf6_x86_elf-using-ghidra)
+    - [Find the password checking function](#find-the-password-checking-function)
+    - [Investigate password checking function `FUN_00101424`](#investigate-password-checking-function-fun_00101424)
+    - [Investigate obfuscation function `FUN_0010139a`](#investigate-obfuscation-function-fun_0010139a)
+    - [Keep Investigating the password checking function `FUN_00101424`](#keep-investigating-the-password-checking-function-fun_00101424)
+    - [Look for exploitable buffer overflow](#look-for-exploitable-buffer-overflow)
 
 ---
 
@@ -64,7 +70,7 @@ Instead of going to the source, the challenge for the beginner binary hacker is 
 
 ## Obfuscation ##
 
-Obfuscation for this exercise was done by running text through a [checksum-like algorithm](https://en.wikipedia.org/wiki/Checksum).
+Obfuscation for this exercise was done by running text through a [checksum](https://en.wikipedia.org/wiki/Checksum)-like algorithm.
 
 ---
 
@@ -99,22 +105,22 @@ Note the lack of legible string or text data.
 
 Right before the password prompt, we see that this data is put through a function whose signature looks similar to those seen in previous exercises.
 
-![function calls](readme_files/ctf5_password_prompt.png)
+![function calls](readme_files/ctf6_password_prompt.png)
 
 We can see that `local_2c8` is our password, based on the logic.
 
-![local_2c8](readme_files/ctf5_local_2c8.png)
+![local_2c8](readme_files/ctf6_local_2c8.png)
 
 ### Investigate obfuscation function `FUN_0010139a` ###
 
 - Initially the function looks like the ones we've seen before.
 
-    ![FUN_0010139a initial](readme_files/ctf5_FUN_0010139a_initial.png)
+    ![FUN_0010139a initial](readme_files/ctf6_FUN_0010139a_initial.png)
 
 - Edit the types to makes things a bit clearer. The loop is looping through incrementing by one, so the types are either `char*` or in Ghidra `byte*`.
 
-    ![FUN_0010139a edit](readme_files/ctf5_FUN_0010139a_edit.png)
-    ![FUN_0010139a new types](readme_files/ctf5_FUN_0010139a_new_types.png)
+    ![FUN_0010139a edit](readme_files/ctf6_FUN_0010139a_edit.png)
+    ![FUN_0010139a new types](readme_files/ctf6_FUN_0010139a_new_types.png)
 
 - After making these edits, we can now do the math or write a function to reverse engineer the flag and password. But as a hacker, it is always best to find a way to cheat. Lets go back and see if we can tell why the main function looked so different.
 
@@ -122,17 +128,17 @@ We can see that `local_2c8` is our password, based on the logic.
 
 - Investigate the password check
 
-    ![password check](readme_files/ctf5_password_check.png)
+    ![password check](readme_files/ctf6_password_check.png)
 
 - Where did `local_c8` get assigned, was it `FUN_0010139a` as expected?
 
-    ![strcpy](readme_files/ctf5_strcpy.png)
+    ![strcpy](readme_files/ctf6_strcpy.png)
 
 - [strcpy](https://www.cplusplus.com/reference/cstring/strcpy/) should cause some alarm bells to go off if you are familiar with common C programming mistakes.
 
     If you are less familiar, here is an excerpt from the help text on cplusplus.com:
 
-    ![strcpy overflow](readme_files/ctf5_overflow.png)
+    ![strcpy overflow](readme_files/ctf6_overflow.png)
 
     This basically just says that if I have ten bytes of data, and I try to put them into a variable that can only hold 5, then 5 bytes of data will overflow and overwrite whatever data was supposed to come next. Exploiting this vulnerability is called a [buffer overflow](https://en.wikipedia.org/wiki/Buffer_overflow). Lets figure out the size of the variable and try to see if we can buffer overflow (we could also just try passing lots of data to see what happens).
 
@@ -140,38 +146,40 @@ We can see that `local_2c8` is our password, based on the logic.
 
 We need to find the variable being copied into, and find out if the variable(s) that would be overflowed into could be useful.
 
-![success check](readme_files/ctf5_success_check.png)
+![success check](readme_files/ctf6_success_check.png)
 
 The check for success checks if `local_a8` is zero.
 
 `local_a8` is assigned in two possible places.
 
 - strcmp #1
-    ![strcmp 1](readme_files/ctf5_strcmp1.png)
+
+    ![strcmp 1](readme_files/ctf6_strcmp1.png)
 
 - strcmp #2
-    ![strcmp 2](readme_files/ctf5_strcmp2.png)
+
+    ![strcmp 2](readme_files/ctf6_strcmp2.png)
 
 Both assignments are base on the strcmp of `local_2c8` and `local_c8`. We already determined that `local_2c8` must be the password, so lets find where `local_c8` is assigned.
 
 - `local_c8` assignment #1
 
     The variable is assigned from an argument to the function (most likely the argument to the binary), then length of the string is calculated, and then if the last character is not zero then a zero is appended.
-    ![local_c8](readme_files/ctf5_local_c8.png)
+    ![local_c8](readme_files/ctf6_local_c8.png)
 
 - `local_c8` assignment #2
 
     This assignment is less obvious. We saw that the other strcmp call was using the value of `local_c8`, but it does not appear to be getting any value assigned.
 
-    ![local c8 hidden](readme_files/ctf5_local_c8_hidden.png)
+    ![local c8 hidden](readme_files/ctf6_local_c8_hidden.png)
 
     Since we can see that the variable is being used, we will make the assumption that it was assigned a value. If we trace the variable upwards, we will find that the pointer was copied into another variable so that there are two pointer variables pointing at the same memory.
 
-    ![local_18](readme_files/ctf5_local_18.png)
+    ![local_18](readme_files/ctf6_local_18.png)
 
     Looking back at our loop, we will find that `local_18`, which is just a clone of `local_c8` is being assigned each character that the user types using the [getchar](https://www.cplusplus.com/reference/cstdio/getchar/) function.
 
-    ![local_18 assignment](readme_files/ctf5_local_18_assignment.png)
+    ![local_18 assignment](readme_files/ctf6_local_18_assignment.png)
 
     We now know that `local_c8` is assigned user input with absolutely no limitations on the number of characters. This is because in one case user input is read using a `while true` loop, and the other case uses [strcpy](https://www.cplusplus.com/reference/cstring/strcpy/) rather than the safer [strncpy](https://www.cplusplus.com/reference/cstring/strncpy/).
 
@@ -179,17 +187,17 @@ Both assignments are base on the strcmp of `local_2c8` and `local_c8`. We alread
 
     This is one area that IDA Pro did better than Ghidra does at the time of this writing. We need to determine if we can affect the logic of the function by overflowing the variable `local_c8`. Ghidra shows us the variables in the order they are in memory in the decompilation view which is very handy, but a table view would be nicer.
 
-    ![local_c8 declaration](readme_files/ctf5_local_c8_declaration.png)
+    ![local_c8 declaration](readme_files/ctf6_local_c8_declaration.png)
 
     We can see that `local_a8`, `local_18`, `local_10`, and `local_c` all come after `local_c8` which implies that we could overwrite them by writing too much data into the buffer. If we recall the password check portion of the code, `local_a8` was used to determine which message to print out to the user.
 
-    ![user reply](readme_files/ctf5_password_check.png)
+    ![user reply](readme_files/ctf6_password_check.png)
 
     It appears that if we write enough non-zero bytes into the buffer that we could potentially overwrite the variable that determines which message to print back to the user.
 
     If we go to the disassembly view and scroll to the top of the function we find a useful view of the stack that can help us determine the size of stack variables.
 
-    ![local_c8 size](readme_files/ctf5_local_c8_size.png)
+    ![local_c8 size](readme_files/ctf6_local_c8_size.png)
 
     Based on this information from Ghidra, we can guess that the `local_c8` buffer is 0x20 (32) characters long. Anything more than that should overflow into `local_a8`.
 
