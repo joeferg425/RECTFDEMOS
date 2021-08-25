@@ -95,9 +95,9 @@ int main(int argc, char **argv)
 
     // prompt for input
     sprintf(prompt, "Please enter CTF%d password:  >>", CTFNUM);
-    printf("%s\n", prompt);
     if (argc < 2)
     {
+        printf("%s ", prompt);
         while (((c = getchar()) != EOF) && (c != '\n') && (counter < (BUFSIZE - 1)))
         {
             if (c == '\n')
