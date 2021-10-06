@@ -9,7 +9,7 @@
 			"type": "cppvsdbg",
 			"request": "launch",
 			"preLaunchTask": "rebuild_windows",
-			"program": "${workspaceFolder}\\bin\\${fileBasenameNoExtension}_x86_pe_debug.exe",
+			"program": "${workspaceFolder}\\ctfs\\${fileBasenameNoExtension}\\bin\\${fileBasenameNoExtension}_x86_pe_debug.exe",
 			"args": [
 				"password",
 				"tacocat"
@@ -24,7 +24,7 @@
 			"type": "cppdbg",
 			"preLaunchTask": "rebuild_linux",
 			"request": "launch",
-			"program": "${workspaceRoot}/bin/${fileBasenameNoExtension}_x86_elf_debug",
+			"program": "${workspaceRoot}/ctfs/${fileBasenameNoExtension}/bin/${fileBasenameNoExtension}_x86_elf_debug",
 			"args": [],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",

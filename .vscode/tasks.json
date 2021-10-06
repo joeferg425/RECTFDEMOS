@@ -4,19 +4,9 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "linux_rebuild",
-			"type": "shell",
-			"command": "make linux_rebuild_debug",
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
 			"label": "rebuild_linux",
 			"type": "shell",
-			"command": "make linux_build_debug",
+			"command": "make rebuild_linux",
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",
@@ -29,17 +19,7 @@
 			// "command": "make windows_rebuild_debug",
 			// "command": "make windows_rebuild0_debug",
 			// "command": "make windows_rebuild1_debug",
-			"command": "make windows_rebuild2_debug",
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"label": "windows_build",
-			"type": "shell",
-			"command": "make windows_build2_debug",
+			"command": "make rebuild_windows",
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",

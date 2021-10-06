@@ -11,6 +11,7 @@ flag: those aren't my waffles
 #include <string.h>
 #include <stdlib.h>
 #include "md5.hpp"
+#include "get_input.hpp"
 
 using namespace std;
 
@@ -20,6 +21,10 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
+    unsigned char input[BUFSIZE] = {0};
+    char prompt[BUFSIZE] = {0};
+    char hash[BUFSIZE] = {0};
+    int charcount = 0;
     unsigned char hashes[ITEM_COUNT][BUFSIZE] =
         {
             {0x0A, 0x0F, 0x6B, 0x88, 0x35, 0x4D, 0xE7, 0xAF, 0xE8, 0x4B, 0x8A, 0x07, 0xDF, 0xAD, 0xCC, 0x26},
@@ -28,27 +33,19 @@ int main(int argc, char **argv)
         {
             "those aren't my waffles",
         };
-    char input[BUFSIZE] = {0};
-    char hash[BUFSIZE] = {0};
 
-    printf("Please enter CTF%d password:  >>", CTFNUM);
-    int c = '\0', charcount = 0;
-    while (((c = getchar()) != EOF) && (c != '\n') && (charcount < (BUFSIZE - 1)))
-    {
-        if (c == '\n')
-        {
-            break;
-        }
-        input[charcount] = c;
-        charcount++;
-    }
-    input[charcount] = 0;
+    // prompt for password
+    sprintf(prompt, "Please enter CTF%d password: ", CTFNUM);
+    get_input(argc, argv, prompt, input, BUFSIZE);
 
     md5((uint8_t *)input, charcount, (uint8_t *)hash);
+    md5((uint8_t *)flags[0], charcount, (uint8_t *)hashes[BUFSIZE-1]);
 
     if (strcmp((char *)hashes[0], hash) != 0)
     {
-        printf("Sorry, '%s' is not the CTF%d password\n", input, CTFNUM);
+        printf("Sorry '");
+        printf((char*)input);
+        printf("' is not the CTF%d password\n", CTFNUM);
     }
     else
     {
