@@ -45,3 +45,4 @@ bin/
 RECTFDEMOS.rep/
 nul
 .markdownlint.json
+.vscode

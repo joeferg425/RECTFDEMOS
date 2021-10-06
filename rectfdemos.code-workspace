@@ -1,0 +1,81 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"xstring": "cpp",
+			"xutility": "cpp"
+		},
+		"editor.insertSpaces": true,
+		"editor.tabSize": 4,
+		"files.trimTrailingWhitespace": true,
+	},
+	"launch": {
+		"configurations": [
+			{
+				"name": "windows",
+				"type": "cppvsdbg",
+				"request": "launch",
+				"preLaunchTask": "rebuild_windows",
+				"program": "${workspaceFolder}\\ctfs\\${fileBasenameNoExtension}\\bin\\${fileBasenameNoExtension}_x86_pe_debug.exe",
+				"args": [
+					"password",
+					"tacocat"
+				],
+				"stopAtEntry": false,
+				"cwd": "${fileDirname}",
+				"environment": [],
+				"console": "integratedTerminal"
+			},
+			{
+				"name": "linux",
+				"type": "cppdbg",
+				"preLaunchTask": "rebuild_linux",
+				"request": "launch",
+				"program": "${workspaceRoot}/ctfs/${fileBasenameNoExtension}/bin/${fileBasenameNoExtension}_x86_elf_debug",
+				"args": [],
+				"stopAtEntry": false,
+				"cwd": "${fileDirname}",
+				"environment": [],
+				"externalConsole": false,
+				"MIMode": "gdb",
+				"setupCommands": [
+					{
+						"description": "Enable pretty-printing for gdb",
+						"text": "-enable-pretty-printing",
+						"ignoreFailures": true
+					},
+				]
+			}
+		],
+		"compounds": []
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "rebuild_linux",
+				"type": "shell",
+				"command": "make rebuild_linux",
+				"problemMatcher": [],
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				}
+			},
+			{
+				"label": "rebuild_windows",
+				"type": "shell",
+				"command": "make rebuild_windows",
+				"problemMatcher": [],
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				}
+			}
+		]
+	}
+}
