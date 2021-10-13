@@ -139,8 +139,8 @@ run_in_docker_windows_x86: rebuild_in_docker_windows_x86
 
 build_linux_x86:
 	@mkdir -p $(OUTDIR_NIX)
-	g++ -s $(SOURCE_NIX)/$(SERVER).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(SERVER)_x86_elf
-	g++ -s $(SOURCE_NIX)/$(CLIENT).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(CLIENT)_x86_elf
+	g++ $(SOURCE_NIX)/$(SERVER).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(SERVER)_x86_elf
+	g++ $(SOURCE_NIX)/$(CLIENT).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(CLIENT)_x86_elf
 clean_linux_x86:
 	rm -f $(OUTDIR_NIX)/$(NAME)_x86_elf*
 rebuild_linux_x86: clean_linux_x86 build_linux_x86
@@ -148,8 +148,8 @@ run_linux_x86: rebuild_linux_x86
 	$(OUTDIR_NIX_REL)/$(SERVER)_x86_elf & $(OUTDIR_NIX_REL)/$(CLIENT)_x86_elf
 build_in_docker_linux_x86: build_linux_docker run_linux_docker
 	@mkdir -p $(OUTDIR_NIX)
-	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); g++ -s $(SOURCE_NIX_REL)/$(SERVER).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(SERVER)_x86_elf
-	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); g++ -s $(SOURCE_NIX_REL)/$(CLIENT).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(CLIENT)_x86_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); g++ $(SOURCE_NIX_REL)/$(SERVER).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(SERVER)_x86_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); g++ $(SOURCE_NIX_REL)/$(CLIENT).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(CLIENT)_x86_elf
 clean_in_docker_linux_x86: clean_linux_x86
 rebuild_in_docker_linux_x86: clean_in_docker_linux_x86 build_in_docker_linux_x86
 run_in_docker_linux_x86: rebuild_in_docker_linux_x86
@@ -157,29 +157,29 @@ run_in_docker_linux_x86: rebuild_in_docker_linux_x86
 
 build_linux_arm:
 	@mkdir -p $(OUTDIR_NIX)
-	arm-linux-gnueabi-g++ -s $(SOURCE_NIX)/$(SERVER).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(SERVER)_arm_elf
-	arm-linux-gnueabi-g++ -s $(SOURCE_NIX)/$(CLIENT).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(CLIENT)_arm_elf
+	arm-linux-gnueabi-g++ $(SOURCE_NIX)/$(SERVER).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(SERVER)_arm_elf
+	arm-linux-gnueabi-g++ $(SOURCE_NIX)/$(CLIENT).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(CLIENT)_arm_elf
 clean_linux_arm:
 	rm -f $(OUTDIR_NIX)/$(NAME)_arm_elf*
 rebuild_linux_arm: clean_linux_arm build_linux_arm
 build_in_docker_linux_arm: build_linux_docker run_linux_docker
 	@mkdir -p $(OUTDIR_NIX)
-	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); arm-linux-gnueabi-g++ -s $(SOURCE_NIX_REL)/$(SERVER).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(SERVER)_arm_elf
-	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); arm-linux-gnueabi-g++ -s $(SOURCE_NIX_REL)/$(CLIENT).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(CLIENT)_arm_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); arm-linux-gnueabi-g++ $(SOURCE_NIX_REL)/$(SERVER).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(SERVER)_arm_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); arm-linux-gnueabi-g++ $(SOURCE_NIX_REL)/$(CLIENT).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(CLIENT)_arm_elf
 clean_in_docker_linux_arm: clean_linux_arm
 rebuild_in_docker_linux_arm: clean_in_docker_linux_arm build_in_docker_linux_arm
 
 build_linux_ppc:
 	@mkdir -p $(OUTDIR_NIX)
-	powerpc-linux-gnu-g++ -s $(SOURCE_NIX)/$(SERVER).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(SERVER)_ppc_elf
-	powerpc-linux-gnu-g++ -s $(SOURCE_NIX)/$(CLIENT).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(CLIENT)_ppc_elf
+	powerpc-linux-gnu-g++ $(SOURCE_NIX)/$(SERVER).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(SERVER)_ppc_elf
+	powerpc-linux-gnu-g++ $(SOURCE_NIX)/$(CLIENT).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(CLIENT)_ppc_elf
 clean_linux_ppc:
 	rm -f $(OUTDIR_NIX)/$(NAME)_ppc_elf*
 rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
 build_in_docker_linux_ppc: build_linux_docker run_linux_docker
 	@mkdir -p $(OUTDIR_NIX)
-	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); powerpc-linux-gnu-g++ -s $(SOURCE_NIX_REL)/$(SERVER).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(SERVER)_ppc_elf
-	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); powerpc-linux-gnu-g++ -s $(SOURCE_NIX_REL)/$(CLIENT).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(CLIENT)_ppc_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); powerpc-linux-gnu-g++ $(SOURCE_NIX_REL)/$(SERVER).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(SERVER)_ppc_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(HELPERS)/$(NAME); powerpc-linux-gnu-g++ $(SOURCE_NIX_REL)/$(CLIENT).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(CLIENT)_ppc_elf
 clean_in_docker_linux_ppc: clean_linux_ppc
 rebuild_in_docker_linux_ppc: clean_in_docker_linux_ppc build_in_docker_linux_ppc
 

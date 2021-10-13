@@ -4,6 +4,11 @@
 			"path": "."
 		}
 	],
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools"
+		]
+	},
 	"settings": {
 		"files.associations": {
 			"xstring": "cpp",
@@ -38,9 +43,8 @@
 				"program": "${workspaceRoot}/ctfs/${fileBasenameNoExtension}/bin/${fileBasenameNoExtension}_x86_elf_debug",
 				"args": [],
 				"stopAtEntry": false,
-				"cwd": "${fileDirname}",
+				"cwd": "${fileDirname}/../",
 				"environment": [],
-				"externalConsole": false,
 				"MIMode": "gdb",
 				"setupCommands": [
 					{
@@ -59,7 +63,10 @@
 			{
 				"label": "rebuild_linux",
 				"type": "shell",
-				"command": "make rebuild_linux",
+				"command": "cd ${workspaceRoot}/*/${fileBasenameNoExtension} ;make rebuild_linux",
+				"options": {
+					"cwd": "${workspaceRoot}"
+				},
 				"problemMatcher": [],
 				"group": {
 					"kind": "build",

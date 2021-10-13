@@ -135,10 +135,13 @@ run_in_docker_windows_x86: rebuild_in_docker_windows_x86
 	docker exec -it $(WIN_NAME) $(subst .\,,$(OUTDIR_WIN_REL))\$(NAME)_x86_pe.exe
 
 build_linux_x86:
+	@echo changed
 	@mkdir -p $(OUTDIR_NIX)
-	g++ -s $(SOURCE_NIX)/$(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_x86_elf_debug -g -fno-stack-protector
-	g++ -s $(SOURCE_NIX)/$(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_x86_elf -fno-stack-protector
+	g++ $(SOURCE_NIX)/$(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_x86_elf_debug -g -fno-stack-protector -O0
+	g++ $(SOURCE_NIX)/$(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_x86_elf -fno-stack-protector -O0
 	strip $(OUTDIR_NIX)/$(NAME)_x86_elf
+	chmod +x $(OUTDIR_NIX)/$(NAME)_x86_elf_debug
+	chmod +x $(OUTDIR_NIX)/$(NAME)_x86_elf
 clean_linux_x86:
 	rm -f $(OUTDIR_NIX)/$(NAME)_x86_elf*
 rebuild_linux_x86: clean_linux_x86 build_linux_x86
@@ -146,8 +149,8 @@ run_linux_x86: rebuild_linux_x86
 	$(OUTDIR_NIX_REL)/$(NAME)_x86_elf
 build_in_docker_linux_x86: build_linux_docker run_linux_docker
 	@mkdir -p $(OUTDIR_NIX)
-	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); g++ -s $(SOURCE_NIX_REL)/$(NAME).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(NAME)_x86_elf_debug -g
-	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); g++ -s $(SOURCE_NIX_REL)/$(NAME).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(NAME)_x86_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); g++ $(SOURCE_NIX_REL)/$(NAME).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(NAME)_x86_elf_debug -g -fno-stack-protector
+	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); g++ $(SOURCE_NIX_REL)/$(NAME).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(NAME)_x86_elf -fno-stack-protector
 	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); strip $(OUTDIR_NIX_REL)/$(NAME)_x86_elf
 clean_in_docker_linux_x86: clean_linux_x86
 rebuild_in_docker_linux_x86: clean_in_docker_linux_x86 build_in_docker_linux_x86
@@ -156,7 +159,7 @@ run_in_docker_linux_x86: rebuild_in_docker_linux_x86
 
 build_linux_arm:
 	@mkdir -p $(OUTDIR_NIX)
-	arm-linux-gnueabi-g++ -s $(SOURCE_NIX)/$(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_arm_elf_debug -fno-stack-protector
+	arm-linux-gnueabi-g++ $(SOURCE_NIX)/$(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_arm_elf_debug -fno-stack-protector
 	@cp $(OUTDIR_NIX)/$(NAME)_arm_elf_debug $(OUTDIR_NIX)/$(NAME)_arm_elf
 	arm-linux-gnueabi-strip $(OUTDIR_NIX)/$(NAME)_arm_elf
 clean_linux_arm:
@@ -164,15 +167,15 @@ clean_linux_arm:
 rebuild_linux_arm: clean_linux_arm build_linux_arm
 build_in_docker_linux_arm: build_linux_docker run_linux_docker
 	@mkdir -p $(OUTDIR_NIX)
-	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); arm-linux-gnueabi-g++ -s $(SOURCE_NIX_REL)/$(NAME).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(NAME)_arm_elf_debug
-	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); cp $(OUTDIR_NIX_REL)/$(NAME)_arm_elf_debug $(OUTDIR_NIX_REL)/$(NAME)_arm_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); arm-linux-gnueabi-g++ $(SOURCE_NIX_REL)/$(NAME).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(NAME)_arm_elf_debug -fno-stack-protector
+	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); cp $(OUTDIR_NIX_REL)/$(NAME)_arm_elf_debug $(OUTDIR_NIX_REL)/$(NAME)_arm_elf -fno-stack-protector
 	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); arm-linux-gnueabi-strip $(OUTDIR_NIX_REL)/$(NAME)_arm_elf
 clean_in_docker_linux_arm: clean_linux_arm
 rebuild_in_docker_linux_arm: clean_in_docker_linux_arm build_in_docker_linux_arm
 
 build_linux_ppc:
 	@mkdir -p $(OUTDIR_NIX)
-	powerpc-linux-gnu-g++ -s $(SOURCE_NIX)/$(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_ppc_elf_debug -fno-stack-protector
+	powerpc-linux-gnu-g++ $(SOURCE_NIX)/$(NAME).cpp $(INCLUDE_NIX) -o $(OUTDIR_NIX)/$(NAME)_ppc_elf_debug -fno-stack-protector
 	@cp $(OUTDIR_NIX)/$(NAME)_ppc_elf_debug $(OUTDIR_NIX)/$(NAME)_ppc_elf
 	powerpc-linux-gnu-strip $(OUTDIR_NIX)/$(NAME)_ppc_elf
 clean_linux_ppc:
@@ -180,8 +183,8 @@ clean_linux_ppc:
 rebuild_linux_ppc: clean_linux_ppc build_linux_ppc
 build_in_docker_linux_ppc: build_linux_docker run_linux_docker
 	@mkdir -p $(OUTDIR_NIX)
-	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); powerpc-linux-gnu-g++ -s $(SOURCE_NIX_REL)/$(NAME).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(NAME)_ppc_elf_debug
-	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); cp $(OUTDIR_NIX_REL)/$(NAME)_ppc_elf_debug $(OUTDIR_NIX_REL)/$(NAME)_ppc_elf
+	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); powerpc-linux-gnu-g++ $(SOURCE_NIX_REL)/$(NAME).cpp $(INCLUDE_NIX_REL) -o $(OUTDIR_NIX_REL)/$(NAME)_ppc_elf_debug -fno-stack-protector
+	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); cp $(OUTDIR_NIX_REL)/$(NAME)_ppc_elf_debug $(OUTDIR_NIX_REL)/$(NAME)_ppc_elf -fno-stack-protector
 	docker exec -it $(NIX_NAME) bash -c cd $(CTFS)/$(NAME); powerpc-linux-gnu-strip $(OUTDIR_NIX_REL)/$(NAME)_ppc_elf
 clean_in_docker_linux_ppc: clean_linux_ppc
 rebuild_in_docker_linux_ppc: clean_in_docker_linux_ppc build_in_docker_linux_ppc
